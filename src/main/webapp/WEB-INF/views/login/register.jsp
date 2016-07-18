@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/resources/css/bootstrap/bootstrap.css" />
 <script src="/resources/js/jquery/jquery-2.1.4.js"></script>
 <script src="/resources/js/bootstrap/bootstrap.js"></script>
+<script src="/resources/js/common.js"></script>
 </head>
 <body>
     <div class="container">
