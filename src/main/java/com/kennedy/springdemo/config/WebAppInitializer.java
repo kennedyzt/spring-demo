@@ -1,5 +1,8 @@
 package com.kennedy.springdemo.config;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -33,4 +36,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[] { "/" };
     }
 
+    /**
+     * 设置对multipart的支持
+     */
+    // TODO 通过此方式配置multipart的支持未起效
+    // @Override
+    // protected void customizeRegistration(Dynamic registration) {
+    // registration.setMultipartConfig(new
+    // MultipartConfigElement("/tmp/springdemo/uploads", 2097152, 4194304, 0));
+    // }
 }

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kennedy.springdemo.beans.user.User;
 
@@ -31,7 +33,7 @@ public class LoginController {
      * @date: 2016年7月18日 下午4:12:26
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String toRegister(@Valid User user, Errors errors) {
+    public String toRegister(@RequestParam("img") MultipartFile multipartFile, @Valid User user, Errors errors) {
         if (errors.hasErrors()) {
             return "redirect:/register";
         }
