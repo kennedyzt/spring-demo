@@ -86,12 +86,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0-b01</version>
 		</dependency>
-		<!-- 文件上传 -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.2</version>
-		</dependency>
 		<!-- DBCP -->
 		<dependency>
 			<groupId>mysql</groupId>
