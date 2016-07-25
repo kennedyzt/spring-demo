@@ -3,15 +3,14 @@ package com.kennedy.springdemo.config;
 import java.io.IOException;
 
 import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -35,26 +34,27 @@ public class DataConfig {
     }
 
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactoryBean() throws IOException {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource());
+        factoryBean.setDataSource(dataSource);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] mapperLocations = resolver.getResources("classpath*:com/kennedy/springdemo/mapper/**/sql/*.xml");
-        factoryBean.setMapperLocations(mapperLocations);
+        factoryBean.setMapperLocations(resolver.getResources("file:D:/workspace/spring-demo/src/main/java/com/kennedy/springdemo/mapper/user/sql/UserMapper.xml"));
         factoryBean.setConfigLocation(new ClassPathResource("mybatis/sqlMapConfig.xml"));
         return factoryBean;
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory() throws IOException, Exception {
-        return sqlSessionFactoryBean().getObject();
+    public SqlSessionFactory sqlSessionFactory(SqlSessionFactoryBean sqlSessionFactoryBean) throws IOException, Exception {
+        return sqlSessionFactoryBean.getObject();
     }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
-        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
-        return sqlSessionTemplate;
-    }
+    //
+    // @Bean
+    // public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactoryBean
+    // sqlSessionFactoryBean) throws Exception {
+    // SqlSessionTemplate sqlSessionTemplate = new
+    // SqlSessionTemplate(sqlSessionFactoryBean.getObject());
+    // return sqlSessionTemplate;
+    // }
 
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() throws IOException, Exception {
