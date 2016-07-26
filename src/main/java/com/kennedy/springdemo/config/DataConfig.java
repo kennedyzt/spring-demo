@@ -38,7 +38,7 @@ public class DataConfig {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        factoryBean.setMapperLocations(resolver.getResources("file:D:/workspace/spring-demo/src/main/java/com/kennedy/springdemo/mapper/user/sql/UserMapper.xml"));
+        factoryBean.setMapperLocations(resolver.getResources("classpath:com/kennedy/springdemo/mapper/**/sql/*Mapper.xml"));
         factoryBean.setConfigLocation(new ClassPathResource("mybatis/sqlMapConfig.xml"));
         return factoryBean;
     }
@@ -47,14 +47,6 @@ public class DataConfig {
     public SqlSessionFactory sqlSessionFactory(SqlSessionFactoryBean sqlSessionFactoryBean) throws IOException, Exception {
         return sqlSessionFactoryBean.getObject();
     }
-    //
-    // @Bean
-    // public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactoryBean
-    // sqlSessionFactoryBean) throws Exception {
-    // SqlSessionTemplate sqlSessionTemplate = new
-    // SqlSessionTemplate(sqlSessionFactoryBean.getObject());
-    // return sqlSessionTemplate;
-    // }
 
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() throws IOException, Exception {
