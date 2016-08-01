@@ -2,6 +2,7 @@ package com.kennedy.springdemo.service.user.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kennedy.springdemo.beans.user.User;
 import com.kennedy.springdemo.mapper.user.UserMapper;
@@ -14,13 +15,16 @@ import com.kennedy.springdemo.service.user.UserService;
  * @version: 1.0
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
     @Override
     public Integer add(User user) throws Exception {
-        return userMapper.add(user);
+        userMapper.add(user);
+        userMapper.add(user);
+        return 1;
     }
 
 }

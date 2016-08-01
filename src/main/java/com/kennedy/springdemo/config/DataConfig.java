@@ -16,6 +16,12 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Configuration
 public class DataConfig {
+    /**
+     * @Description: 配置数据源
+     * @return
+     * @author: zengt
+     * @date: 2016年7月28日 下午4:00:52
+     */
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
@@ -33,6 +39,17 @@ public class DataConfig {
         return dataSource;
     }
 
+    /**
+     * @Description: Spring+Mybatis配置
+     * @see 1:SqlSessionFactoryBean
+     * @see 2:SqlSessionFactory
+     * @see 3:MapperScannerConfigurer
+     * @param dataSource
+     * @return
+     * @throws IOException
+     * @author: zengt
+     * @date: 2016年7月28日 下午4:01:10
+     */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
