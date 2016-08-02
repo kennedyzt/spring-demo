@@ -13,9 +13,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 @Configuration
-public class DataConfig {
+@EnableTransactionManagement(proxyTargetClass = true) // 启用注解式事务管理
+                                                      // <tx:annotation-driven
+                                                      // />
+public class DataConfig implements TransactionManagementConfigurer {
     /**
      * @Description: 配置数据源
      * @return
@@ -39,17 +46,6 @@ public class DataConfig {
         return dataSource;
     }
 
-    /**
-     * @Description: Spring+Mybatis配置
-     * @see 1:SqlSessionFactoryBean
-     * @see 2:SqlSessionFactory
-     * @see 3:MapperScannerConfigurer
-     * @param dataSource
-     * @return
-     * @throws IOException
-     * @author: zengt
-     * @date: 2016年7月28日 下午4:01:10
-     */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
@@ -72,4 +68,15 @@ public class DataConfig {
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         return mapperScannerConfigurer;
     }
+
+    @Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Override
+    public PlatformTransactionManager annotationDrivenTransactionManager() {
+        return txManager();
+    }
+
 }

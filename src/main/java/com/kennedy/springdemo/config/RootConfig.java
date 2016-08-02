@@ -1,7 +1,5 @@
 package com.kennedy.springdemo.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -9,16 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @ComponentScan(basePackages = { "com.kennedy.springdemo" }, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
-@Import(DataConfig.class)
-@EnableTransactionManagement // 启用注解式事务管理 <tx:annotation-driven />
+@Import({ DataConfig.class })
 public class RootConfig {
     /**
      * @Description: 配置multipart的支持
@@ -34,12 +29,5 @@ public class RootConfig {
         commonsMultipartResolver.setMaxUploadSize(2097152);
         commonsMultipartResolver.setMaxUploadSizePerFile(2097152);
         return commonsMultipartResolver;
-    }
-
-    @Bean
-    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
-        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-        dataSourceTransactionManager.setDataSource(dataSource);
-        return dataSourceTransactionManager;
     }
 }

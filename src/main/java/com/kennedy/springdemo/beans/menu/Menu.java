@@ -34,6 +34,17 @@ public class Menu extends BaseData implements Serializable {
         return text;
     }
 
+    public Menu() {
+        super();
+    }
+
+    public Menu(Integer parentId, Integer level, String text) {
+        super();
+        this.parentId = parentId;
+        this.level = level;
+        this.text = text;
+    }
+
     public String getIcon() {
         return icon;
     }
