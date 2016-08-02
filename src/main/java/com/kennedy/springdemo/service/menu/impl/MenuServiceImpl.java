@@ -9,12 +9,12 @@ import com.kennedy.springdemo.service.menu.MenuService;
 
 @Service
 public class MenuServiceImpl implements MenuService {
-    @Autowired
-    MenuMapper menuMapper;
+	@Autowired
+	MenuMapper menuMapper;
 
-    @Override
-    public Integer add(Menu menu) throws Exception {
-        return menuMapper.add(menu);
-    }
+	@Override
+	public Integer add(Menu menu) throws Exception {
+		return menuMapper.add(menu);
+	}
 
 }
