@@ -14,7 +14,7 @@
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputEmail3"
+					<input type="text" class="form-control" id="usernaem"
 						name="username" placeholder="用户名">
 				</div>
 			</div>
@@ -32,7 +32,8 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" id="sendWebSocketBtn" class="btn btn-default">发送WebSocket消息</button>
+					<button type="button" id="sendWebSocketBtn1"
+						onclick="sendWebSocketMsg();" class="btn btn-default">发送WebSocket消息</button>
 				</div>
 			</div>
 		</form>
@@ -46,32 +47,12 @@
 		$("#sendWebSocketBtn").on("click", sendWebSocketMsg());
 	}
 	function sendWebSocketMsg() {
-		var url = "ws://"+ "localhost:8080/springdemo/marco";
-		if ('WebSocket' in window) {
-			var sock = new WebSocket(url); //打开websocket
-		} else if ('MozWebSocket' in window) {
-			ws = new MozWebSocket(url);
-		} else {
-			return;
-		}
-		sock.open = function() { //处理连接开启事件
-			console.log("opening");
-			sayMarco();
-		}
+		var url = "ws://" + "localhost:8080/springdemo/marco";
+		sock = new WebSocket(url); //打开websocket
 		sock.onmessage = function(e) { // 处理信息
-			console.log("Received message:" + e.data);
-			setTimeout(function() {
-				sayMarco()
-			}, 2000);
+			alert("Received message:" + e.data);
 		}
-		sock.onclose = function() {
-			console.log("Closing");
-		}
-		function sayMarco() {
-			console.log("Sending Marco!"); //发送消息
-			sock.send("Marco!");
-		}
-
+		sock.send("Hello:" + $("#usernaem").val());
 	}
 </script>
 </html>
