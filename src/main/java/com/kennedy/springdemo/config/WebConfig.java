@@ -24,16 +24,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-    // 配置静态资源的处理
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-    // TODO 静态资源价值不理想待修改
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-        super.addResourceHandlers(registry);
+        registry.addResourceHandler("/css/**").addResourceLocations("/resources/css");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 }
