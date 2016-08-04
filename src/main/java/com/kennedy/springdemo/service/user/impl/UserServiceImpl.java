@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kennedy.springdemo.beans.menu.Menu;
 import com.kennedy.springdemo.beans.user.User;
-import com.kennedy.springdemo.mapper.menu.MenuMapper;
 import com.kennedy.springdemo.mapper.user.UserMapper;
 import com.kennedy.springdemo.service.user.UserService;
 
@@ -19,16 +17,12 @@ import com.kennedy.springdemo.service.user.UserService;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	@Autowired
-	UserMapper userMapper;
-	@Autowired
-	MenuMapper menuMapper;
+    @Autowired
+    UserMapper userMapper;
 
-	@Override
-	public Integer add(User user) throws Exception {
-		userMapper.add(user);
-		menuMapper.add(new Menu(1, 1, "系统管理")); // 模擬事務
-		return 1;
-	}
+    @Override
+    public Integer add(User user) throws Exception {
+        return userMapper.add(user);
+    }
 
 }

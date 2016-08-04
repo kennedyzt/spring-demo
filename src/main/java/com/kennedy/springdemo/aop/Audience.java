@@ -6,11 +6,11 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class Audience {
-    @Pointcut("execution(** com.kennedy.springdemo.service.**.impl.add(..))")
+    @Pointcut("execution(** com.kennedy.springdemo.service.*.impl.*.add(..))")
     public void performance() {
     };
 
-    @Before(value = "performance()")
+    @Before("performance()")
     public void before() {
         System.out.println("before");
     }
