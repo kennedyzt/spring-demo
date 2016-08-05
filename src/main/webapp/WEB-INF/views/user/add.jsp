@@ -37,19 +37,20 @@
     </div>
 </body>
 <script type="text/javascript">
-    $(function() {
-        initEvent();
-    });
-    function initEvent() {
-        $("#sendWebSocketBtn").on("click", sendWebSocketMsg());
-    }
-    function sendWebSocketMsg() {
-        var url = "ws://" + "localhost:8080/springdemo/marco";
-        sock = new WebSocket(url); //打开websocket
-        sock.onmessage = function(e) { // 处理信息
-            alert("Received message:" + e.data);
-        }
-        sock.send("Hello:" + $("#username").val());
-    }
+
+    /*     $(function() {
+     initEvent();
+     });
+     function initEvent() {
+     $("#sendWebSocketBtn").on("click", sendWebSocketMsg());
+     }
+     function sendWebSocketMsg() {
+     var url = "ws://" + "localhost:8080/springdemo/marco";
+     sock = new WebSocket(url); //打开websocket
+     sock.onmessage = function(e) { // 处理信息
+     alert("Received message:" + e.data);
+     }
+     sock.send("Hello:" + $("#username").val());
+     } */
 </script>
 </html>

@@ -6,18 +6,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import com.kennedy.springdemo.beans.common.interceptor.WebSocketHandshakeInterceptor;
+
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(marcoHandler(), "/marco");
-	}
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(marcoHandler(), "/marco").addInterceptors(new WebSocketHandshakeInterceptor());
+    }
 
-	@Bean
-	public MarcoHandler marcoHandler() {
-		return new MarcoHandler();
-	}
+    @Bean
+    public SystemWebSocketHandler marcoHandler() {
+        return new SystemWebSocketHandler();
+    }
 
 }

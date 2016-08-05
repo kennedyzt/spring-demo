@@ -1,7 +1,10 @@
 package com.kennedy.springdemo.web.login;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +46,21 @@ public class LoginController {
             return "redirect:/register";
         }
         return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String toLogin() {
+        return "/login/login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        HttpSession session = request.getSession();
+        session.setAttribute("username", username);
+        session.setAttribute("password", password);
+        return "redirect:/main ";
     }
 
 }
