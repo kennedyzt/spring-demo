@@ -24,6 +24,11 @@ public class LoginController {
         return "/login/register";
     }
 
+    @RequestMapping(value = { "/", "/main" }, method = RequestMethod.GET)
+    public String toMain() {
+        return "/layout/main";
+    }
+
     /**
      * @Description: 使用JSR-303对Java校验
      * @param user

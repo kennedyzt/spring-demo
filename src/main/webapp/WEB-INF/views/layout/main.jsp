@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+<%
+    String path = request.getContextPath();
+%>
 <html>
 <head>
 <title>kennedy</title>
@@ -27,6 +30,6 @@
     <div class="footer" id="footer">
         <jsp:include flush="true" page="footer.jsp"></jsp:include>
     </div>
-    <script src="/resources/js/framework/layout/layout.js"></script>
+    <script src="<%=path%>/resources/js/framework/layout/layout.js"></script>
 </body>
 </html>

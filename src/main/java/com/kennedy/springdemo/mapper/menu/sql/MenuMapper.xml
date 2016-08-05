@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kennedy.springdemo.mapper.menu.MenuMapper">
+	<resultMap id="MenuMap" type="com.kennedy.springdemo.beans.menu.Menu">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="parent_id" jdbcType="INTEGER" property="parentId" />
+		<result column="text" jdbcType="VARCHAR" property="text" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="selected_icon" property="selectedIcon" jdbcType="VARCHAR" />
+		<result column="back_color" property="backColor" jdbcType="VARCHAR" />
+		<result column="href" property="href" jdbcType="VARCHAR" />
+		<result column="select_table" property="selectTable" jdbcType="VARCHAR" />
+		<result column="tags" property="tags" jdbcType="VARCHAR" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<collection property="nodes" column="id" ofType="com.kennedy.springdemo.beans.menu.Menu" select="getChirldren">
+		</collection>
+	</resultMap>
+	<sql id="menu_column_list">
+		m.id, m.parent_id, m.level, m.text, m.icon, m.selected_icon, m.color, m.back_color, m.href, m.select_table,
+		m.tags, m.create_date, m.create_by, m.update_date, m.update_by
+	</sql>
 	<select id="add" parameterType="com.kennedy.springdemo.beans.menu.Menu">
 		INSERT INTO menu(parent_id,level,text) VALUES(#{parentId},#{level},#{text})
+	</select>
+	<select id="getList" resultMap="MenuMap">
+		select
+		<include refid="menu_column_list" />
+		from menu m where m.level=1
+	</select>
+	<select id="getChirldren" parameterType="java.lang.Integer" resultMap="MenuMap">
+		select
+		<include refid="menu_column_list" />
+		from menu m where m.parent_id=#{id}
 	</select>
 </mapper>

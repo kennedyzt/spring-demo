@@ -1,10 +1,14 @@
 package com.kennedy.springdemo.service.user.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kennedy.springdemo.beans.common.PageRequest;
 import com.kennedy.springdemo.beans.user.User;
+import com.kennedy.springdemo.common.PageModel;
 import com.kennedy.springdemo.mapper.user.UserMapper;
 import com.kennedy.springdemo.service.user.UserService;
 
@@ -23,6 +27,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer add(User user) throws Exception {
         return userMapper.add(user);
+    }
+
+    @Override
+    public PageModel<User> getListByPage(PageRequest pageRequest) {
+        List<User> list = userMapper.getListByPage(pageRequest);
+        return new PageModel<>(pageRequest.getTotalCount(), list);
     }
 
 }

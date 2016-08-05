@@ -1,11 +1,16 @@
 package com.kennedy.springdemo.web.user;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kennedy.springdemo.beans.common.PageRequest;
 import com.kennedy.springdemo.beans.user.User;
+import com.kennedy.springdemo.common.PageModel;
 import com.kennedy.springdemo.common.ResultMsg;
 import com.kennedy.springdemo.service.user.UserService;
 
@@ -36,6 +41,18 @@ public class UserController {
             resultMsg.setIsSuccess(Boolean.FALSE);
         }
         return resultMsg;
+    }
+
+    @RequestMapping(value = "/getListByPage")
+    @ResponseBody
+    public PageModel<User> getListByPage(PageRequest pageRequest) {
+        PageModel<User> pageModel = null;
+        try {
+            pageModel = userService.getListByPage(pageRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pageModel;
     }
 
 }

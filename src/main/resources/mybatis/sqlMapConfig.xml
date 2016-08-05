@@ -8,7 +8,7 @@
 	<typeAliases>
 		<package name="com.kennedy.springdemo.beans" />
 	</typeAliases>
-<!-- 	<plugins>
-		<plugin interceptor="com.siping.service.common.PageInterceptor"></plugin>
-	</plugins> -->
+	<plugins>
+		<plugin interceptor="com.kennedy.springdemo.beans.common.interceptor.PageInterceptor"></plugin>
+	</plugins>
 </configuration>

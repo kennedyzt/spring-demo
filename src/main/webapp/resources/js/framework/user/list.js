@@ -10,7 +10,7 @@ function initEvent() {
 function init() {
     $('#table').framework().bootstrapTable({
         url : '/user/getListByPage',
-        height : parent.$(".layui-layer").height() - 100,
+        height : 550,
         columns : [ {
             title : '操作',
             formatter : operationFormatter

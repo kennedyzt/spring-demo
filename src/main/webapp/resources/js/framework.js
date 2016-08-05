@@ -22,6 +22,9 @@
                         };
                     }
                 };
+                if (options.url) {
+                    options.url = createUrl(options.url);
+                }
                 $.extend(DEFAULTS, options);
                 that.bootstrapTable(DEFAULTS);
             },
@@ -78,12 +81,17 @@
         };
     }
 })(jQuery);
+function createUrl(url) {
+    var pathName = window.document.location.pathname;
+    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1) + "/";
+    return projectName + url;
+}
 var framework = {
     openWindow : function(url, width, height, title, allowScroll) {
         var index = layer.open({
             type : 2, // layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
             title : title,
-            content : [ url, allowScroll || 'yes' ], // 不出现滚动条no
+            content : [ createUrl(url), allowScroll || 'yes' ], // 不出现滚动条no
             area : [ width, height ],
             shadeClose : false, // 点击阴影是否关闭
             closeBtn : 1,
@@ -140,7 +148,7 @@ function tabs(nodeData) {
             DEFAULT.$li.find('a').attr('href', '#page_' + nodeData.nodeId);
             DEFAULT.$li.find('a').text(nodeData.text);
             DEFAULT.$tab.attr('id', 'page_' + nodeData.nodeId);
-            DEFAULT.$tab.find('iframe').attr('src', nodeData.href);
+            DEFAULT.$tab.find('iframe').attr('src', createUrl(nodeData.href));
         }
         function addEvent() {
             // 添加右击事件

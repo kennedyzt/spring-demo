@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kennedy.springdemo.mapper.user.UserMapper">
+	<resultMap id="UserMap" type="com.kennedy.springdemo.beans.user.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="user_column">
+		u.id, u.username, u.nickname, u.`password`, u.email, u.telephone, u.address, u.create_date, u.create_by,
+		u.update_date, u.update_by
+	</sql>
 	<select id="add" parameterType="com.kennedy.springdemo.beans.user.User">
 		INSERT INTO user(username,password) VALUES(#{username},#{password})
+	</select>
+	<select id="getListByPage" parameterType="com.kennedy.springdemo.beans.common.PageRequest" resultMap="UserMap">
+		select
+		<include refid="user_column" />
+		from user u
+		order by u.create_date
 	</select>
 </mapper>
