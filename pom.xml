@@ -9,6 +9,7 @@
 	<properties>
 		<spring.version>4.2.3.RELEASE</spring.version>
 		<shiro.version>1.2.4</shiro.version>
+		<spring.security>3.2.0.RELEASE</spring.security>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -90,6 +91,17 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0-b01</version>
+		</dependency>
+		<!-- spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security}</version>
 		</dependency>
 		<!-- 文件上传 -->
 		<dependency>
