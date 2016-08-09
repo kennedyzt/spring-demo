@@ -2,6 +2,7 @@
 <%
     String path = request.getContextPath();
 %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
 <title>kennedy</title>
@@ -10,6 +11,7 @@
 </head>
 <body id="body">
     <div class="header" id="header">
+        <span>歡迎：<sec:authentication property="principal.username" /></span>
         <jsp:include flush="true" page="header.jsp"></jsp:include>
     </div>
     <div class="main" id="main">
@@ -27,9 +29,11 @@
             </div>
         </div>
     </div>
-    <div class="footer" id="footer">
-        <jsp:include flush="true" page="footer.jsp"></jsp:include>
-    </div>
+    <sec:authorize access="hasRole('ROLE_SYSTEM')">
+        <div class="footer" id="footer">
+            <jsp:include flush="true" page="footer.jsp"></jsp:include>
+        </div>
+    </sec:authorize>
     <script src="<%=path%>/resources/js/framework/layout/layout.js"></script>
 </body>
 </html>
