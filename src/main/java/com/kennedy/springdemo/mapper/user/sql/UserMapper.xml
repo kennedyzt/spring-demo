@@ -33,4 +33,8 @@
 		from user u
 		where u.username=#{username}
 	</select>
+	<select id="getAuthorityByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT DISTINCT a.authority from user_group ug LEFT JOIN group_authoritie ga on ug.group_id=ga.group_id LEFT JOIN
+		authority a ON ga.authority_id=a.id where ug.user_id=#{userId}
+	</select>
 </mapper>

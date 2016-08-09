@@ -1,5 +1,7 @@
 package com.kennedy.springdemo.service.user;
 
+import java.util.List;
+
 import com.kennedy.springdemo.beans.common.PageRequest;
 import com.kennedy.springdemo.beans.user.User;
 import com.kennedy.springdemo.common.PageModel;
@@ -10,4 +12,6 @@ public interface UserService {
     public PageModel<User> getListByPage(PageRequest pageRequest);
 
     public User getUserByName(String username);
+
+    public List<String> getAuthorityByUserId(Integer userId);
 }

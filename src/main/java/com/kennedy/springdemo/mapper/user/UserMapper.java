@@ -11,4 +11,6 @@ public interface UserMapper {
     public List<User> getListByPage(PageRequest pageRequest);
 
     public User getUserByName(String username);
+
+    public List<String> getAuthorityByUserId(Integer userId);
 }
