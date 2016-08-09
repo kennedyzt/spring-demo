@@ -27,4 +27,10 @@
 		from user u
 		order by u.create_date
 	</select>
+	<select id="getUserByName" parameterType="java.lang.String" resultMap="UserMap">
+		select
+		<include refid="user_column" />
+		from user u
+		where u.username=#{username}
+	</select>
 </mapper>

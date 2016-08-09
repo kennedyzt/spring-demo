@@ -35,4 +35,9 @@ public class UserServiceImpl implements UserService {
         return new PageModel<>(pageRequest.getTotalCount(), list);
     }
 
+    @Override
+    public User getUserByName(String username) {
+        return userMapper.getUserByName(username);
+    }
+
 }

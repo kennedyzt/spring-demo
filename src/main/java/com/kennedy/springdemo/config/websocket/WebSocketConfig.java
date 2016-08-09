@@ -1,4 +1,4 @@
-package com.kennedy.springdemo.config;
+package com.kennedy.springdemo.config.websocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

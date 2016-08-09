@@ -8,4 +8,6 @@ public interface UserService {
     public Integer add(User user) throws Exception;
 
     public PageModel<User> getListByPage(PageRequest pageRequest);
+
+    public User getUserByName(String username);
 }

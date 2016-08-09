@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <%
     String path = request.getContextPath();
 %>
@@ -23,6 +23,7 @@
                     <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="密码">
                 </div>
             </div>
+            <input type="hidden" name="_csrf" value="123" />
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default">登录</button>

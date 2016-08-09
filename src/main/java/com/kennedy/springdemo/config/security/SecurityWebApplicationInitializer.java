@@ -1,4 +1,4 @@
-package com.kennedy.springdemo.config;
+package com.kennedy.springdemo.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 /**

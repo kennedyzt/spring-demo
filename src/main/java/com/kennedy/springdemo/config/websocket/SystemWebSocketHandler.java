@@ -1,4 +1,4 @@
-package com.kennedy.springdemo.config;
+package com.kennedy.springdemo.config.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;

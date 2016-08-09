@@ -2,6 +2,10 @@ package com.kennedy.springdemo.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.kennedy.springdemo.config.datasources.DataConfig;
+import com.kennedy.springdemo.config.security.WebSecurityConfig;
+import com.kennedy.springdemo.config.websocket.WebSocketConfig;
+
 /**
  * @Description:spring容器初始化，项目部署在Servlet3.0容器中的时候，容器会自动发现此文件
  * @date: 2016年7月18日 上午11:40:48

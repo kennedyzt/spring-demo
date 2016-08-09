@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.socket.TextMessage;
 
-import com.kennedy.springdemo.config.SystemWebSocketHandler;
+import com.kennedy.springdemo.config.websocket.SystemWebSocketHandler;
 
 @Controller
 @RequestMapping("/websocket")

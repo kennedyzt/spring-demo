@@ -9,4 +9,6 @@ public interface UserMapper {
     public Integer add(User user);
 
     public List<User> getListByPage(PageRequest pageRequest);
+
+    public User getUserByName(String username);
 }
