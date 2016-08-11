@@ -30,8 +30,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().logout().logoutUrl("/logout").logoutSuccessUrl("/user/login").and().formLogin()
-            .loginPage("/login").permitAll().and().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN").and().authorizeRequests().antMatchers("/member/**")
-            .access("hasRole('ADMIN') and hasRole('MENBER')").anyRequest().authenticated().and().httpBasic().and().csrf().disable();
+        // 解决不能加载iframe 页面报一个"Refused to display 'http://......' in a frame
+        // because it set 'X-Frame-Options' to 'DENY'. "错误
+        http.headers().frameOptions().disable();
+        // 对静态资源不拦截
+        http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated();
+        // 配置登录，退出页面
+        http.logout().logoutUrl("/logout").logoutSuccessUrl("/user/login").and().formLogin().loginPage("/login").permitAll();
+        // 权限控制
+        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/member/**").access("hasRole('ADMIN') and hasRole('MENBER')");
+        // 禁用CSRF
+        http.csrf().disable();
     }
 }
