@@ -28,29 +28,7 @@
                     <button type="submit" class="btn btn-default">添加</button>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" id="sendWebSocketBtn1" onclick="sendWebSocketMsg();" class="btn btn-default">发送WebSocket消息</button>
-                </div>
-            </div>
         </form>
     </div>
 </body>
-<script type="text/javascript">
-
-    /*     $(function() {
-     initEvent();
-     });
-     function initEvent() {
-     $("#sendWebSocketBtn").on("click", sendWebSocketMsg());
-     }
-     function sendWebSocketMsg() {
-     var url = "ws://" + "localhost:8080/springdemo/marco";
-     sock = new WebSocket(url); //打开websocket
-     sock.onmessage = function(e) { // 处理信息
-     alert("Received message:" + e.data);
-     }
-     sock.send("Hello:" + $("#username").val());
-     } */
-</script>
 </html>
