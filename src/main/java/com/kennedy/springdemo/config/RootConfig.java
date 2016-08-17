@@ -11,11 +11,12 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.kennedy.springdemo.aop.Audience;
+import com.kennedy.springdemo.aop.LogAspect;
+import com.kennedy.springdemo.aop.RWAspect;
 
 @Configuration
 @ComponentScan(basePackages = { "com.kennedy.springdemo" }, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
-@EnableAspectJAutoProxy //  啟用AspectJ 自動代理
+@EnableAspectJAutoProxy // 啟用AspectJ 自動代理
 public class RootConfig {
     /**
      * @Description: 配置multipart的支持
@@ -33,8 +34,25 @@ public class RootConfig {
         return commonsMultipartResolver;
     }
 
+    /**
+     * @Description: 记录日志
+     * @return
+     * @author: zengt
+     * @date: 2016年8月17日 下午2:59:51
+     */
     @Bean
-    public Audience audience() {
-        return new Audience();
+    public LogAspect transactionAdvice() {
+        return new LogAspect();
+    }
+
+    /**
+     * @Description: 读写分离
+     * @return
+     * @author: zengt
+     * @date: 2016年8月17日 下午3:00:07
+     */
+    @Bean
+    public RWAspect rwAspect() {
+        return new RWAspect();
     }
 }

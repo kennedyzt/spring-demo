@@ -2,8 +2,6 @@ package com.kennedy.springdemo.config.datasources;
 
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -22,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @ImportResource("classpath:transactional/transactional.xml")
 public class DaoConfig {
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DynamicDataSource dynamicDataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource);
+        factoryBean.setDataSource(dynamicDataSource);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         factoryBean.setMapperLocations(resolver.getResources("classpath:com/kennedy/springdemo/mapper/**/sql/*Mapper.xml"));
         factoryBean.setConfigLocation(new ClassPathResource("mybatis/sqlMapConfig.xml"));

@@ -1,6 +1,5 @@
 package com.kennedy.springdemo.service.user.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer add(User user) throws Exception {
-        userMapper.add(user);
-        throw new Exception();
+        return userMapper.add(user);
     }
 
     @Override
