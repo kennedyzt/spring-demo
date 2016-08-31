@@ -34,7 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // because it set 'X-Frame-Options' to 'DENY'. "错误
         http.headers().frameOptions().disable();
         // 对静态资源不拦截
-        http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/wechat/**").permitAll();
+        http.authorizeRequests().antMatchers("/resources/**").permitAll();
         // 配置登录，退出页面
         http.logout().logoutUrl("/logout").logoutSuccessUrl("/user/login").and().formLogin().loginPage("/login").permitAll();
         // 权限控制
