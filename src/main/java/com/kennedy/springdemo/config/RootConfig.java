@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -54,5 +57,44 @@ public class RootConfig {
     @Bean
     public RWAspect rwAspect() {
         return new RWAspect();
+    }
+
+    /**
+     * @Description: Redis
+     * @return
+     * @author: zengt
+     * @date: 2016年9月2日 上午11:58:56
+     */
+    @Bean
+    public RedisConnectionFactory redisCF() {
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+        jedisConnectionFactory.setHostName("127.0.0.1");
+        jedisConnectionFactory.setPort(6379);
+        return jedisConnectionFactory;
+    }
+
+    /**
+     * @Description: RedisTemplate
+     * @param redisConnectionFactory
+     * @return
+     * @author: zengt
+     * @date: 2016年9月2日 下午2:34:54
+     */
+    @Bean
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        return redisTemplate;
+    }
+
+    /**
+     * @Description: spring容器初始化完成后调用此类获取accessToken
+     * @return
+     * @author: zengt
+     * @date: 2016年9月2日 下午2:38:35
+     */
+    @Bean
+    public DynamicGetAccessToken DynamicGetAccessToken() {
+        return new DynamicGetAccessToken();
     }
 }

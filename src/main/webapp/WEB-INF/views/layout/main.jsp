@@ -11,7 +11,7 @@
 </head>
 <body id="body">
     <div class="header" id="header">
-        <span>歡迎：<sec:authentication property="principal.username" /></span>
+        <%-- <span>歡迎：<sec:authentication property="principal.username" /></span> --%>
         <jsp:include flush="true" page="header.jsp"></jsp:include>
     </div>
     <div class="main" id="main">

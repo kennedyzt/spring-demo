@@ -1,12 +1,15 @@
 package com.kennedy.springdemo.beans.wechat;
 
+import java.io.Serializable;
+
 /**
  * @Description: 微信验证URL有效性
  * @date: 2016年8月31日 下午3:03:24
  * @author: zengt
  * @version: 1.0
  */
-public class CheckModel extends ErrorCodeModel {
+public class CheckModel extends ErrorCodeModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     String signature;
     Long timestamp;
     Long nonce;

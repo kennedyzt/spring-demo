@@ -12,7 +12,7 @@ import com.kennedy.springdemo.beans.wechat.CheckModel;
  */
 @Service
 public class TokenService {
-    public String bbn(String wxToken, CheckModel tokenModel) {
+    public String validate(String wxToken, CheckModel tokenModel) {
         String signature = tokenModel.getSignature();
         Long timestamp = tokenModel.getTimestamp();
         Long nonce = tokenModel.getNonce();
