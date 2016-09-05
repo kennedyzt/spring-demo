@@ -1,13 +1,11 @@
 package com.kennedy.springdemo.config;
 
-import java.net.ConnectException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.kennedy.springdemo.beans.wechat.AccessToken;
+import com.kennedy.springdemo.beans.wechat.Token;
 import com.kennedy.springdemo.utils.WeChatUtil;
 
 import net.sf.json.JSONException;
@@ -33,7 +31,7 @@ public class DynamicGetAccessToken implements ApplicationListener<ApplicationEve
                     while (true) {
                         try {
                             // 获取accessToken
-                            AccessToken accessToken = WeChatUtil.getAccessToken();
+                            Token accessToken = WeChatUtil.getToken();
                             if (accessToken != null) {
                                 redisTemplate.opsForValue().set("accessToken", accessToken.getAccessToken());
                                 sleep(60 * 60 * 2 * 1000);
@@ -45,8 +43,6 @@ public class DynamicGetAccessToken implements ApplicationListener<ApplicationEve
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (ConnectException e) {
                             e.printStackTrace();
                         } catch (Exception e) {
                             e.printStackTrace();

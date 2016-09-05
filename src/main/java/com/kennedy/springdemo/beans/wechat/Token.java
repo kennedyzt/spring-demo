@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author: zengt
  * @version: 1.0
  */
-public class AccessToken extends ErrorCodeModel implements Serializable {
+public class Token extends ErrorCodeModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String accessToken; // 获取到的凭证
     private Integer expiresIn; // 凭证有效时间，单位：秒
