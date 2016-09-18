@@ -1,8 +1,8 @@
 package com.kennedy.springdemo.service.wechat;
 
-import org.springframework.stereotype.Service;
+import javax.servlet.http.HttpServletRequest;
 
-import com.kennedy.springdemo.beans.wechat.CheckModel;
+import org.springframework.stereotype.Service;
 
 /**
  * @Description: 微信开发者验证
@@ -12,11 +12,11 @@ import com.kennedy.springdemo.beans.wechat.CheckModel;
  */
 @Service
 public class TokenService {
-    public String validate(String wxToken, CheckModel tokenModel) {
-        String signature = tokenModel.getSignature();
-        Long timestamp = tokenModel.getTimestamp();
-        Long nonce = tokenModel.getNonce();
-        String echostr = tokenModel.getEchostr();
+    public String validate(HttpServletRequest request) {
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+        String echostr = request.getParameter("echostr");
         if (signature != null && timestamp != null & nonce != null) {
             return echostr;
         }

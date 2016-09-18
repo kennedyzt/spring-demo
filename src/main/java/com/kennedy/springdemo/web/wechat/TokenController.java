@@ -3,6 +3,9 @@ package com.kennedy.springdemo.web.wechat;
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +37,15 @@ public class TokenController {
      * @throws ParseException
      * @throws IOException
      */
-    @RequestMapping(value = "/check/{wxToken}", method = RequestMethod.GET, produces = "text/plain")
-    public @ResponseBody String validate(@PathVariable("wxToken") String wxToken, CheckModel tokenModel) throws ParseException, IOException {
-        return tokenService.validate(wxToken, tokenModel);
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @ResponseBody
+    public String doGet(HttpServletRequest request, HttpServletResponse response) {
+        return tokenService.validate(request);
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST,produces="text/xml")
+    public String doPost(HttpServletRequest request, HttpServletResponse response) {
+        String ss = request.getParameter("ToUserName");
+        return tokenService.validate(request);
     }
 }

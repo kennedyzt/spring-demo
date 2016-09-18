@@ -1,5 +1,7 @@
 package com.kennedy.springdemo.web.wechat;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,12 @@ public class WeChatController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "";
+    }
+
+    @RequestMapping(value = "/message")
+    public String receiveMessage(HttpServletRequest request) {
+        System.out.println(request.getAttribute("ToUserName"));
         return "";
     }
 }

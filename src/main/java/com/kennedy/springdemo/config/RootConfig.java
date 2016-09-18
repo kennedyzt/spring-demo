@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.kennedy.springdemo.aop.LogAspect;
 import com.kennedy.springdemo.aop.RWAspect;
+import com.kennedy.springdemo.web.wechat.DynamicGetAccessToken;
 
 @Configuration
 @ComponentScan(basePackages = { "com.kennedy.springdemo" }, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
