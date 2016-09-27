@@ -7,7 +7,6 @@ import com.kennedy.springdemo.beans.wechat.menu.ClickButton;
 import com.kennedy.springdemo.beans.wechat.menu.MenuType;
 import com.kennedy.springdemo.beans.wechat.menu.ViewButton;
 import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
-import com.kennedy.springdemo.utils.WeChatMenuUtil;
 import com.kennedy.springdemo.utils.WeChatUtil;
 
 /**
@@ -21,19 +20,19 @@ public class MenuManager {
         boolean result = false;
         String jsonString = "";
         String access_token = WeChatUtil.getToken().getAccessToken();
-        result = WeChatMenuUtil.deleteMenu(access_token);
+        result = WeChatUtil.deleteMenu(access_token);
         if (result) {
             System.out.println(("菜单删除成功！"));
         } else {
             System.out.println("菜单删除失败，错误码：" + result);
         }
-        result = WeChatMenuUtil.createMenu(getMenu(), access_token);
+        result = WeChatUtil.createMenu(getMenu(), access_token);
         if (result) {
             System.out.println("菜单创建成功！");
         } else {
             System.out.println("菜单创建失败，错误码：" + result);
         }
-        jsonString = WeChatMenuUtil.getMenu(access_token);
+        jsonString = WeChatUtil.getMenu(access_token);
         System.out.println("菜单查询结果:" + jsonString);
     }
 
@@ -49,9 +48,9 @@ public class MenuManager {
         ClickButton clickButton = new ClickButton("ClickButton", MenuType.CLICK.getType(), "baidu");
         // 拼接请求地址
         String requestUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
-        requestUrl = requestUrl.replace("APPID", WeChatUtil.APPID).replace("REDIRECT_URI", WeChatUtil.PROXYADDRESS + "/springdemo/wechat/getuserinfo").replace("SCOPE", "snsapi_userinfo").replace("STATE",
-            "123456");
-        ViewButton viewButton1 = new ViewButton("百度", MenuType.VIEW.getType(), requestUrl);
+        requestUrl = requestUrl.replace("APPID", WeChatUtil.APPID).replace("REDIRECT_URI", WeChatUtil.PROXYADDRESS + "/springdemo/wechat/getuserinfo").replace("SCOPE", "snsapi_userinfo")
+            .replace("STATE", "123456");
+        ViewButton viewButton1 = new ViewButton("购买商品", MenuType.VIEW.getType(), requestUrl);
         weChatMenu.setButton(new Button[] { clickButton, viewButton1 });
 
         return weChatMenu;

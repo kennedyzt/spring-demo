@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kennedy.springdemo.beans.wechat.message.TextMessage;
 import com.kennedy.springdemo.service.wechat.TokenService;
 
 /**
@@ -41,9 +43,9 @@ public class TokenController {
         return tokenService.validate(request);
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.POST, produces = "text/xml")
-    public String doPost(HttpServletRequest request, HttpServletResponse response) {
-        String ss = request.getParameter("ToUserName");
-        return tokenService.validate(request);
+    @RequestMapping(value = "/index", method = RequestMethod.POST, headers = { "content-type=application/json", "content-type=application/xml" })
+    public String doPost(@RequestBody TextMessage textMessage) {
+        System.out.println(textMessage);
+        return "ss";
     }
 }

@@ -24,7 +24,7 @@ public class WeChatController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return "/wechat/shop";
     }
 
     @RequestMapping(value = "/message")
