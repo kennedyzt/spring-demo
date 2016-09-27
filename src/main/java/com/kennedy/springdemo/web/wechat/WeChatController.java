@@ -2,8 +2,6 @@ package com.kennedy.springdemo.web.wechat;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +19,6 @@ public class WeChatController {
     public String getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state) {
         try {
             WebToken webToken = WeChatUtil.getWebToken(code);
-            // String accessToken =
-            // redisTemplate.opsForValue().get("accessToken");
             WeChatUser user = WeChatUtil.getUserInfo(webToken.getAccessToken(), webToken.getOpenid());
             System.out.println(user.toString());
         } catch (Exception e) {
