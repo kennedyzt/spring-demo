@@ -11,27 +11,15 @@ import java.io.Serializable;
 public class WeChatUser extends ErrorCodeModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public Boolean subscribe; // 用户是否订阅该公众号
     public String openId; // 对当前公众号的唯一用户标示
     public String nickName; // 用户昵称
     public Integer sex; // 1:男 2：女 0 未知
     public String city; // 用户所在城市
     public String country; // 用户所在国家
-    public String province; // 用户所在省份
-    public String language; // 用户语言
     public String headImagUrl; // 用户头像url
-    public String subscribeTime; // 用户关注时间戳
-    public String unionId; // 只有用户将公众号绑定到微信开放平台账号后才会出现该字段
-    public String remark; // 公众号运营者对粉丝的备注
     public String groupId; // 用户所在分组ID
-
-    public Boolean getSubscribe() {
-        return subscribe;
-    }
-
-    public void setSubscribe(Boolean subscribe) {
-        this.subscribe = subscribe;
-    }
+    public String privilege; // 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
+    public String unionid; // 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。详见：获取用户个人信息（UnionID机制）
 
     public String getOpenId() {
         return openId;
@@ -73,22 +61,6 @@ public class WeChatUser extends ErrorCodeModel implements Serializable {
         this.country = country;
     }
 
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public String getHeadImagUrl() {
         return headImagUrl;
     }
@@ -97,36 +69,28 @@ public class WeChatUser extends ErrorCodeModel implements Serializable {
         this.headImagUrl = headImagUrl;
     }
 
-    public String getSubscribeTime() {
-        return subscribeTime;
-    }
-
-    public void setSubscribeTime(String subscribeTime) {
-        this.subscribeTime = subscribeTime;
-    }
-
-    public String getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(String unionId) {
-        this.unionId = unionId;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
     public String getGroupId() {
         return groupId;
     }
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(String privilege) {
+        this.privilege = privilege;
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid;
     }
 
 }

@@ -7,6 +7,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.kennedy.springdemo.beans.wechat.WeChatUser;
+import com.kennedy.springdemo.beans.wechat.WebToken;
+import com.kennedy.springdemo.utils.WeChatUtil;
 
 @Controller
 @RequestMapping("/wechat")
@@ -14,12 +19,13 @@ public class WeChatController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public String get() {
-
+    @RequestMapping(value = "/getuserinfo", method = RequestMethod.GET)
+    public String getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state) {
         try {
+            WebToken webToken = WeChatUtil.getWebToken(code);
             String accessToken = redisTemplate.opsForValue().get("accessToken");
-            System.out.println(accessToken);
+            WeChatUser user = WeChatUtil.getUserInfo(accessToken, webToken.getOpenid());
+            System.out.println(user.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

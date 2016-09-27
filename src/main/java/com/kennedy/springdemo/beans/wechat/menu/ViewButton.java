@@ -1,8 +1,24 @@
 package com.kennedy.springdemo.beans.wechat.menu;
 
+/**
+ * @Description: TODO
+ * @date: 2016年9月26日 上午9:29:58
+ * @author: zengt
+ * @version: 1.0
+ */
 public class ViewButton extends Button {
     private String type;
     private String url;
+
+    public ViewButton() {
+        super();
+    }
+
+    public ViewButton(String name, String type, String url) {
+        super.name = name;
+        this.type = type;
+        this.url = url;
+    }
 
     public String getType() {
         return type;

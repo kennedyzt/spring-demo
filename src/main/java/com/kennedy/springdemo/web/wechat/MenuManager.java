@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import com.kennedy.springdemo.beans.wechat.menu.Button;
 import com.kennedy.springdemo.beans.wechat.menu.ClickButton;
 import com.kennedy.springdemo.beans.wechat.menu.MenuType;
+import com.kennedy.springdemo.beans.wechat.menu.ViewButton;
 import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
 import com.kennedy.springdemo.utils.WeChatMenuUtil;
 import com.kennedy.springdemo.utils.WeChatUtil;
@@ -45,8 +46,14 @@ public class MenuManager {
      */
     private static WeChatMenu getMenu() {
         WeChatMenu weChatMenu = new WeChatMenu();
-        ClickButton clickButton = new ClickButton("百度", MenuType.CLICK.getType(), "baidu");
-        weChatMenu.setButton(new Button[] { clickButton });
+        ClickButton clickButton = new ClickButton("ClickButton", MenuType.CLICK.getType(), "baidu");
+        // 拼接请求地址
+        String requestUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+        requestUrl = requestUrl.replace("APPID", WeChatUtil.APPID).replace("REDIRECT_URI", WeChatUtil.PROXYADDRESS + "/springdemo/wechat/getuserinfo").replace("SCOPE", "snsapi_userinfo").replace("STATE",
+            "123456");
+        ViewButton viewButton1 = new ViewButton("百度", MenuType.VIEW.getType(), requestUrl);
+        weChatMenu.setButton(new Button[] { clickButton, viewButton1 });
+
         return weChatMenu;
     }
 

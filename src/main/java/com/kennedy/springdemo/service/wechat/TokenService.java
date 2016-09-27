@@ -16,9 +16,9 @@ public class TokenService {
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
-        String echostr = request.getParameter("echostr");
+        // String echostr = request.getParameter("echostr");
         if (signature != null && timestamp != null & nonce != null) {
-            return echostr;
+            return signature;
         }
         return "error";
     }
