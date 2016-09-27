@@ -16,15 +16,14 @@ import com.kennedy.springdemo.utils.WeChatUtil;
 @Controller
 @RequestMapping("/wechat")
 public class WeChatController {
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     @RequestMapping(value = "/getuserinfo", method = RequestMethod.GET)
     public String getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state) {
         try {
             WebToken webToken = WeChatUtil.getWebToken(code);
-            String accessToken = redisTemplate.opsForValue().get("accessToken");
-            WeChatUser user = WeChatUtil.getUserInfo(accessToken, webToken.getOpenid());
+            // String accessToken =
+            // redisTemplate.opsForValue().get("accessToken");
+            WeChatUser user = WeChatUtil.getUserInfo(webToken.getAccessToken(), webToken.getOpenid());
             System.out.println(user.toString());
         } catch (Exception e) {
             e.printStackTrace();

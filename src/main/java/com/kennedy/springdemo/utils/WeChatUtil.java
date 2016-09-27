@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
 public class WeChatUtil {
     public final static String APPID = "wxe6ec34f9a9bd3cf9";
     public final static String APPSECRET = "de69c952bcbcd7fc43191cc38d68d45b";
-    public final static String PROXYADDRESS = "http://cca3c7b8.ngrok.io";
+    public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/";
 
     public static Token getToken() {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret=" + APPSECRET;
@@ -103,8 +103,9 @@ public class WeChatUtil {
                 user.setGroupId(jsonObject.getString("groupid"));
                 user.setPrivilege(jsonObject.getString("privilege"));
                 user.setUnionid(jsonObject.getString("unionid"));
+                user.setErrcode(jsonObject.getString("errcode"));
+                user.setErrmsg(jsonObject.getString("errmsg"));
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         return user;
@@ -118,13 +119,22 @@ public class WeChatUtil {
         // 获取用户信息
         JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
         if (null != jsonObject) {
-            webToken = new WebToken();
-            webToken.setAccessToken(jsonObject.getString("access_token"));
-            webToken.setExpiresIn(jsonObject.getString("expires_in"));
-            webToken.setRefreshToken(jsonObject.getString("refresh_token"));
-            webToken.setOpenid(jsonObject.getString("openid"));
-            webToken.setScope(jsonObject.getString("scope"));
-            webToken.setUnionid(jsonObject.getString("unionid"));
+            try {
+                webToken = new WebToken();
+                webToken.setAccessToken(jsonObject.getString("access_token"));
+                webToken.setExpiresIn(jsonObject.getString("expires_in"));
+                webToken.setRefreshToken(jsonObject.getString("refresh_token"));
+                webToken.setOpenid(jsonObject.getString("openid"));
+                webToken.setScope(jsonObject.getString("scope"));
+                try {
+                    webToken.setUnionid(jsonObject.getString("unionid"));
+                } catch (JSONException e) {
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                webToken = null;
+            }
         }
         return webToken;
     }
