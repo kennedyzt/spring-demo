@@ -50,7 +50,7 @@ public class MenuManager {
         String requestUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
         requestUrl = requestUrl.replace("APPID", WeChatUtil.APPID).replace("REDIRECT_URI", WeChatUtil.PROXYADDRESS + "/springdemo/wechat/getuserinfo").replace("SCOPE", "snsapi_userinfo")
             .replace("STATE", "123456");
-        ViewButton viewButton1 = new ViewButton("购买商品", MenuType.VIEW.getType(), requestUrl);
+        ViewButton viewButton1 = new ViewButton("网页授权", MenuType.VIEW.getType(), requestUrl);
         weChatMenu.setButton(new Button[] { clickButton, viewButton1 });
 
         return weChatMenu;

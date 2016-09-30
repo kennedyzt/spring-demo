@@ -3,22 +3,26 @@ package com.kennedy.springdemo.beans.wechat.message;
 import java.io.Serializable;
 
 /**
- * @Description: 微信消息
- * @date: 2016年9月27日 下午4:19:55
+ * @Description: 微信返回消息
+ * @date: 2016年9月28日 上午11:02:31
  * @author: zengt
  * @version: 1.0
  */
-public class Message implements Serializable {
-
+public class OutputMessage implements Serializable {
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-    private String ToUserName; // 开发者微信号
-    private String FromUserName; // 发送方帐号（一个OpenID）
-    private Integer CreateTime; // 消息创建时间 （整型）
-    private String MsgType; // text
-    private String MsgId; // 消息id，64位整型
+
+    private String ToUserName;
+
+    private String FromUserName;
+
+    private Long CreateTime;
+
+    private String MsgType = "text";
+
+    private String MediaId;
 
     public String getToUserName() {
         return ToUserName;
@@ -36,11 +40,11 @@ public class Message implements Serializable {
         FromUserName = fromUserName;
     }
 
-    public Integer getCreateTime() {
+    public Long getCreateTime() {
         return CreateTime;
     }
 
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(Long createTime) {
         CreateTime = createTime;
     }
 
@@ -52,12 +56,12 @@ public class Message implements Serializable {
         MsgType = msgType;
     }
 
-    public String getMsgId() {
-        return MsgId;
+    public String getMediaId() {
+        return MediaId;
     }
 
-    public void setMsgId(String msgId) {
-        MsgId = msgId;
+    public void setMediaId(String mediaId) {
+        MediaId = mediaId;
     }
 
 }
