@@ -1,10 +1,10 @@
 package com.kennedy.springdemo.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import com.kennedy.springdemo.config.datasources.DataConfig;
 import com.kennedy.springdemo.config.security.WebSecurityConfig;
 import com.kennedy.springdemo.config.websocket.WebSocketConfig;
+import com.kennedy.springdemo.listener.ApplicationListener;
 
 /**
  * @Description:spring容器初始化，项目部署在Servlet3.0容器中的时候，容器会自动发现此文件
@@ -18,7 +18,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { RootConfig.class, DataConfig.class, WebSecurityConfig.class };
+        return new Class<?>[] { RootConfig.class, DataConfig.class, WebSecurityConfig.class, ApplicationListener.class };
     }
 
     /**
