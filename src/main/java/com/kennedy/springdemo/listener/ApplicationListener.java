@@ -5,8 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.kennedy.springdemo.service.user.UserService;
 
 /**
  * @Description: 网站访问量监听器
@@ -24,7 +28,9 @@ public class ApplicationListener implements HttpSessionListener {
         if (request.getHeader("x-forwarded-for") == null) {
             ip = request.getRemoteAddr();
         }
-        System.out.println(ip);
+        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(httpSessionEvent.getSession().getServletContext());
+        UserService pvService = (UserService) context.getBean("userServiceImpl");
+        pvService.getUserByName("1");
     }
 
     @Override
