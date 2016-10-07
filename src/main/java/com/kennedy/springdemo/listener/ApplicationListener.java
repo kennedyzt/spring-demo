@@ -20,9 +20,11 @@ import com.kennedy.springdemo.service.user.UserService;
  */
 @WebListener
 public class ApplicationListener implements HttpSessionListener {
+    public static Integer times = 0;
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        times++;
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = "";
         if (request.getHeader("x-forwarded-for") == null) {
