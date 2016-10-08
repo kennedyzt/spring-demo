@@ -1,14 +1,15 @@
 package com.kennedy.springdemo.web.demo;
 
+import com.kennedy.springdemo.beans.common.FileResponse;
+import com.kennedy.springdemo.beans.user.User;
+import com.kennedy.springdemo.common.ResultMsg;
+import com.kennedy.springdemo.utils.FileUploadUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.kennedy.springdemo.beans.user.User;
-import com.kennedy.springdemo.common.ResultMsg;
 
 @Controller
 @RequestMapping("/demo")
@@ -34,9 +35,11 @@ public class DemoController {
     }
 
     @RequestMapping(value = "/fileinput/adduser", method = RequestMethod.POST)
-    public @ResponseBody ResultMsg addUser(User user, @RequestParam("doc") MultipartFile file) {
+    @ResponseBody
+    public ResultMsg addUser(User user, @RequestParam("doc") MultipartFile file) {
         ResultMsg resultMsg = new ResultMsg();
         resultMsg.setIsSuccess(Boolean.TRUE);
+        FileResponse fileResponse = FileUploadUtil.saveImage(file, "E:\\static\\img");
         return resultMsg;
     }
 

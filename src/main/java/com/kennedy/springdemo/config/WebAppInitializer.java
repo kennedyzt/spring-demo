@@ -5,7 +5,6 @@ import com.kennedy.springdemo.config.security.WebSecurityConfig;
 import com.kennedy.springdemo.config.websocket.WebSocketConfig;
 import com.kennedy.springdemo.listener.ApplicationListener;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import com.kennedy.springdemo.config.schedule.PvSchedule;
 
 
 /**
@@ -20,7 +19,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { RootConfig.class, DataConfig.class, WebSecurityConfig.class, ApplicationListener.class,PvSchedule.class };
+        return new Class<?>[]{RootConfig.class, DataConfig.class, WebSecurityConfig.class, ApplicationListener.class};
     }
 
     /**
@@ -28,7 +27,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
      */
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] { WebConfig.class, WebSocketConfig.class };
+        return new Class<?>[]{WebConfig.class, WebSocketConfig.class};
     }
 
     /**
@@ -36,7 +35,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
      */
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/" };
+        return new String[]{"/"};
     }
 
 }

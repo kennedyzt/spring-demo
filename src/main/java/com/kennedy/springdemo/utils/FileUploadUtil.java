@@ -1,14 +1,28 @@
 package com.kennedy.springdemo.utils;
 
+import com.kennedy.springdemo.beans.common.FileResponse;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+
 /**
- * @Description: 使用amazon s3 保存文件
- * @date: 2016年7月22日 下午2:41:41
- * @author: zengt
- * @version: 1.0
+ * 文件上传Util
  */
 public class FileUploadUtil {
-    private static void saveImage(MultipartFile file) throws Exception {
-        // TODO 缺少必要包未完成
+    public static FileResponse saveImage(MultipartFile multipartFile, String path) {
+        FileResponse fileResponse = new FileResponse();
+        String fileName = multipartFile.getOriginalFilename().substring(0, multipartFile.getOriginalFilename().lastIndexOf("."));
+        fileResponse.setFileName(fileName);
+        String newFileName = fileName + "_" + System.currentTimeMillis() + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+        fileResponse.setNewFileName(newFileName);
+        File file = new File(path + "\\" + newFileName);
+        try {
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return fileResponse;
     }
 }

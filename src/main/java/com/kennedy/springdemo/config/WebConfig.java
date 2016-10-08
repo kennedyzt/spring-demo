@@ -1,8 +1,11 @@
 package com.kennedy.springdemo.config;
 
+import com.kennedy.springdemo.listener.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan("com.kennedy.springdemo.web") // 启用注解扫描
 @EnableWebMvc // 代替xml配置启用Spring Mvc <mvc: annotation-driven>
+@EnableScheduling
 public class WebConfig extends WebMvcConfigurerAdapter {
     // JSP视图解析器
     @Bean
@@ -34,4 +38,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
+    @Scheduled(cron = "0/5 * * * * ?")   // 每天23:59:59 执行一次
+    public void myTest() {
+        System.out.println("访问次数为:" + ApplicationListener.times);
+        ApplicationListener.times = 0;
+    }
+
 }

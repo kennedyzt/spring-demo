@@ -32,7 +32,7 @@
                 var DEFAULTS = {
                     language : 'zh', // 设置语言
                     maxFileCount : 9, // 表示允许同时上传的最大文件个数
-                    allowedFileExtensions : [ 'jpeg', 'jpg', 'png', 'gif', 'bmp', 'tif' ],// 接收的文件后缀
+                    allowedFileExtensions : [ 'jpeg', 'jpg', 'png', 'gif', 'bmp', 'tif','zip' ],// 接收的文件后缀
                     showPreview : true, // 是否显示预览
                     uploadUrl : "/",
                     showUpload : false, // 是否显示上传按钮
