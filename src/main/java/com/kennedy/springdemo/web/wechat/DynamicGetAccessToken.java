@@ -43,8 +43,8 @@ public class DynamicGetAccessToken implements ApplicationListener<ApplicationEve
                                 Thread.sleep(60 * 60 * 2 * 1000);
                             } else {
                                 num++;
-                                Thread.sleep(1000 * 10); // 获取的access_token为空
-                                                        // 休眠3秒
+                                Thread.sleep(1000 * 30); // 获取的access_token为空
+                                                        // 休眠30秒
                             }
 
                         } catch (InterruptedException e) {

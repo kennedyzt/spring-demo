@@ -2,6 +2,7 @@ package com.kennedy.springdemo.web.wechat;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.kennedy.springdemo.beans.wechat.Token;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ public class WeChatController {
         try {
             WebToken webToken = WeChatUtil.getWebToken(code);
             WeChatUser user = WeChatUtil.getUserInfo(webToken.getAccessToken(), webToken.getOpenid());
+            WeChatUtil.previewMsg(WeChatUtil.getToken().getAccessToken(), webToken.getOpenid());
             System.out.println(user.toString());
         } catch (Exception e) {
             e.printStackTrace();

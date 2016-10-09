@@ -39,7 +39,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-    @Scheduled(cron = "0/5 * * * * ?")   // 每天23:59:59 执行一次
+    @Scheduled(cron = "55 59 23 * * ?")   // 每天23:59:55 执行一次
     public void myTest() {
         System.out.println("访问次数为:" + ApplicationListener.times);
         ApplicationListener.times = 0;

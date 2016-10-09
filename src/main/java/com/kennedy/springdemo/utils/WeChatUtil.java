@@ -1,21 +1,22 @@
 package com.kennedy.springdemo.utils;
 
+import com.kennedy.springdemo.beans.wechat.Token;
+import com.kennedy.springdemo.beans.wechat.WeChatUser;
+import com.kennedy.springdemo.beans.wechat.WebToken;
+import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
+import com.kennedy.springdemo.beans.wechat.message.Filter;
+import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
+import com.kennedy.springdemo.beans.wechat.message.Text;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import com.kennedy.springdemo.beans.wechat.Token;
-import com.kennedy.springdemo.beans.wechat.WeChatUser;
-import com.kennedy.springdemo.beans.wechat.WebToken;
-import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 /**
  * @Description: 微信工具类
@@ -24,8 +25,8 @@ import net.sf.json.JSONObject;
  * @version: 1.0
  */
 public class WeChatUtil {
-    public final static String APPID = "wxe6ec34f9a9bd3cf9";
-    public final static String APPSECRET = "de69c952bcbcd7fc43191cc38d68d45b";
+    public final static String APPID = "wx322330a266a36785";
+    public final static String APPSECRET = "bbd2ea7859c2dfadf82f162a53d01516";
     // 动态代理地址
     public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/";
     // 创建菜单（POST）
@@ -34,6 +35,10 @@ public class WeChatUtil {
     public final static String MENU_GET_URL = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN";
     // 删除菜单（GET）
     public final static String MENU_DELETE_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
+    // 分组发送消息（POST）
+    public final static String SEND_MSG_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN";
+    // 消息预览
+    public final static String PREVIEW_MSG_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN";
 
     public static Token getToken() {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret=" + APPSECRET;
@@ -46,8 +51,8 @@ public class WeChatUtil {
                 token.setAccessToken(jsonObject.getString("access_token"));
                 token.setExpiresIn(jsonObject.getInt("expires_in"));
             } catch (JSONException e) {
-                e.printStackTrace();
-                System.out.println("获取accessToken次数超限制");
+                token.setErrcode(jsonObject.getString("errcode"));
+                token.setErrmsg(jsonObject.getString("errmsg"));
             }
         }
         return token;
@@ -148,10 +153,10 @@ public class WeChatUtil {
     }
 
     /**
-     * @Description: 创建菜单
      * @param menu
      * @param accessToken
      * @return
+     * @Description: 创建菜单
      * @author: zengt
      * @date: 2016年9月5日 下午3:15:27
      */
@@ -174,9 +179,9 @@ public class WeChatUtil {
     }
 
     /**
-     * @Description: 查询菜单列表
      * @param accessToken
      * @return
+     * @Description: 查询菜单列表
      * @author: zengt
      * @date: 2016年9月5日 下午3:16:48
      */
@@ -193,15 +198,15 @@ public class WeChatUtil {
 
     /**
      * 뇜꽉데
+     *
      * @param accessToken 틴聯
      * @return true냥묘 false呵겨
      */
     public static boolean deleteMenu(String accessToken) {
         boolean result = false;
         String requestUrl = MENU_DELETE_URL.replace("ACCESS_TOKEN", accessToken);
-        // 랙폅GET헝헹뇜꽉데
+        // 拼接请求地址
         JSONObject jsonObject = WeChatUtil.httpRequest(requestUrl, "GET", null);
-
         if (null != jsonObject) {
             int errorCode = jsonObject.getInt("errcode");
             if (0 == errorCode) {
@@ -211,5 +216,35 @@ public class WeChatUtil {
             }
         }
         return result;
+    }
+
+    public static String sendMsg(String accessToken) {
+        // 拼接请求地址
+        String requestUrl = SEND_MSG_URL.replace("ACCESS_TOKEN", accessToken);
+        // 获取用户信息
+        SendAllMsg sendAllMsg = new SendAllMsg();
+        Filter filter = new Filter();
+        filter.setIs_to_all(true);
+        sendAllMsg.setFilter(filter);
+        Text text = new Text();
+        text.setContent("群发消息测试");
+        sendAllMsg.setText(text);
+        sendAllMsg.setMsgtype("text");
+        JSONObject jsonObject = httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
+        return "";
+    }
+
+    public static String previewMsg(String accessToken, String openId) {
+        // 拼接请求地址
+        String requestUrl = PREVIEW_MSG_URL.replace("ACCESS_TOKEN", accessToken);
+        // 获取用户信息
+        SendAllMsg sendAllMsg = new SendAllMsg();
+        sendAllMsg.setTouser(openId);
+        Text text = new Text();
+        text.setContent("群发消息测试");
+        sendAllMsg.setText(text);
+        sendAllMsg.setMsgtype("text");
+        JSONObject jsonObject = httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
+        return "";
     }
 }
