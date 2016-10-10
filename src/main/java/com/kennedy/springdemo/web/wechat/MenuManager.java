@@ -45,6 +45,7 @@ public class MenuManager {
      */
     private static WeChatMenu getMenu() {
         WeChatMenu weChatMenu = new WeChatMenu();
+
         ClickButton clickButton = new ClickButton("ClickButton", MenuType.CLICK.getType(), "baidu");
         // 拼接请求地址
         String requestUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
