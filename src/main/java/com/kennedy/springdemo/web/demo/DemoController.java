@@ -1,6 +1,5 @@
 package com.kennedy.springdemo.web.demo;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
@@ -52,6 +51,11 @@ public class DemoController {
             e.printStackTrace();
         }
         return resultMsg;
+    }
+
+    @RequestMapping("/preview")
+    public String toPreview() {
+        return "/demo/preview";
     }
 
 }
