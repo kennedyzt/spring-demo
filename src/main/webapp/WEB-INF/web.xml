@@ -1,7 +1,79 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- PageOffice Begin -->
+  <servlet>
+    <servlet-name>poserver</servlet-name> 
+    <servlet-class>com.zhuozhengsoft.pageoffice.poserver.Server</servlet-class> 
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>poserver</servlet-name> 
+    <url-pattern>/poserver.do</url-pattern> 
+  </servlet-mapping> 
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/pageoffice.cab</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/popdf.cab</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/sealsetup.exe</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+     <servlet-name>poserver</servlet-name> 
+     <url-pattern>/posetup.exe</url-pattern>
+  </servlet-mapping>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>adminseal</servlet-name> 
+    <servlet-class>com.zhuozhengsoft.pageoffice.poserver.AdminSeal</servlet-class> 
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/adminseal.do</url-pattern> 
+  </servlet-mapping>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/loginseal.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/sealimage.do</url-pattern>
+  </servlet-mapping>
+  <mime-mapping>  
+  	<extension>mht</extension>  
+  	<mime-type>message/rfc822</mime-type>  
+  </mime-mapping>
+  <context-param>
+  	<param-name>adminseal-password</param-name>
+  	<param-value>111111</param-value>
+  </context-param>
+  
+  <!--<context-param>
+  	<param-name>posealdb-driver</param-name>
+  	<param-value>com.mysql.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-url</param-name>
+  	<param-value>jdbc:mysql://localhost:3306/sample</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-username</param-name>
+  	<param-value>root</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-password</param-name>
+  	<param-value>admin</param-value>
+  </context-param>-->
+  <!-- PageOffice End -->
 </web-app>
