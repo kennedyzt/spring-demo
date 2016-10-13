@@ -57,5 +57,4 @@ public class DemoController {
     public String toPreview() {
         return "/demo/preview";
     }
-
 }
