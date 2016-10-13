@@ -44,7 +44,7 @@
                     overwriteInitial : false, // 修改时不覆盖原有文件
                     maxImageWidth : 1500,
                     maxImageHeight : 1500,
-                    maxFileSize : 1024,
+                    maxFileSize : 14024,
                     previewSettings : {
                         image : {
                             width : "176px",
