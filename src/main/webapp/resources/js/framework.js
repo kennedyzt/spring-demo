@@ -121,7 +121,7 @@ var framework = {
  */
 function tabs(nodeData) {
     var DEFAULT = {
-        $li : $('<li><a data-toggle="tab"></a><span class="glyphicon glyphicon-remove" style="position: absolute;right:5px;"></span></li>'),
+        $li : $('<li style="width: 100px;"><a data-toggle="tab"></a><span class="glyphicon glyphicon-remove" style="position: absolute;right:5px;"></span></li>'),
         $tab : $('<div class="tab-pane fade in active" style="width:100%;height:100%"><iframe width="100%" height="100%" style="overflow-x: hidden; display: inline;" allowtransparency="true" frameborder="0" width="100%" height="100%" </iframe></div>')
     }
     // 若没有href 不做任何处理
