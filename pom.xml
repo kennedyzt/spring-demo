@@ -209,6 +209,18 @@
 			<artifactId>pageoffice</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<!-- 支付宝依赖 -->
+		<dependency>
+			<groupId>org.alipay</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>fakepath</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<type>pom</type>
+		</dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>
