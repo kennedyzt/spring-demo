@@ -8,6 +8,7 @@
 <title>kennedy</title>
 <meta charset="UTF-8">
 <jsp:include flush="true" page="resources.jsp"></jsp:include>
+<script src="<%=path%>/resources/js/contextmenu/contextmenu.js"></script>
 </head>
 <body id="body">
     <div class="header" id="header">
@@ -19,8 +20,8 @@
             <jsp:include flush="true" page="menu.jsp"></jsp:include>
         </div>
         <div class="right" id="right">
-            <ul class="nav nav-tabs" style="height: 40px; width: 100%">
-                <li data-id="" class="active"><a href="#home" data-toggle="tab">系统主页</a></li>
+            <ul class="nav nav-tabs" style="height: 40px; width: 100%; margin-top: 5px;">
+                <li style="height: 35px;" data-id="" class="active"><a href="#home" style="padding: 9px 15px;" data-toggle="tab">系统主页</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="home" style="width: 100%; height: 100%">

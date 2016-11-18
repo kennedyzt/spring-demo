@@ -32,7 +32,7 @@
                 var DEFAULTS = {
                     language : 'zh', // 设置语言
                     maxFileCount : 9, // 表示允许同时上传的最大文件个数
-                    allowedFileExtensions : [ 'jpeg', 'jpg', 'png', 'gif', 'bmp', 'tif','zip' ],// 接收的文件后缀
+                    allowedFileExtensions : [ 'jpeg', 'jpg', 'png', 'gif', 'bmp', 'tif', 'zip' ],// 接收的文件后缀
                     showPreview : true, // 是否显示预览
                     uploadUrl : "/",
                     showUpload : false, // 是否显示上传按钮
@@ -121,11 +121,16 @@ var framework = {
  */
 function tabs(nodeData) {
     var DEFAULT = {
-        $li : $('<li style="width: 100px;"><a data-toggle="tab"></a><span class="glyphicon glyphicon-remove" style="position: absolute;right:5px;"></span></li>'),
-        $tab : $('<div class="tab-pane fade in active" style="width:100%;height:100%"><iframe width="100%" height="100%" style="overflow-x: hidden; display: inline;" allowtransparency="true" frameborder="0" width="100%" height="100%" </iframe></div>')
+        $li : $('<li><a data-toggle="tab" style="padding: 9px 15px;"></a><span class="glyphicon glyphicon-close" style="font-size:12px;position: absolute; cursor: pointer; opacity: 0.8; right: 5%; display: none; top: 35%;">×</span></li>'),
+        $tab : $('<div class="tab-pane fade in active" style="width:100%;height:100%"><iframe width="100%" height="100%" style="overflow-x: hidden; display: inline;" allowtransparency="true" frameborder="0"> </iframe></div>')
     }
     // 若没有href 不做任何处理
     if (nodeData.href) {
+        // 若target为_self 直接跳转页面
+        if (nodeData.target == '_self') {
+            window.location.href = createUrl(nodeData.href);
+            return;
+        }
         // 已存在该节点则不追加节点，高亮显示当前节点
         var flag = false;
         $.each($('.nav.nav-tabs').children(), function() {
@@ -145,24 +150,42 @@ function tabs(nodeData) {
         }
         function initTab(nodeData) {
             DEFAULT.$li.attr('data-id', nodeData.nodeId);
-            DEFAULT.$li.find('a').attr('href', '#page_' + nodeData.nodeId);
-            DEFAULT.$li.find('a').text(nodeData.text);
+            DEFAULT.$li.find('a').attr('href', '#page_' + nodeData.nodeId).text(nodeData.text);
             DEFAULT.$tab.attr('id', 'page_' + nodeData.nodeId);
             DEFAULT.$tab.find('iframe').attr('src', createUrl(nodeData.href));
         }
         function addEvent() {
             // 添加右击事件
             DEFAULT.$li.mousedown(function(e) {
-                if (e.which === 3) {
-                    alert("右击事件待完成");
-                }
+                var $that = $(this);
+                var hrefIframe = $that.find("a").attr("href");
+                var $iframe = $(hrefIframe).find('iframe');
+                $that.contextMenu('myMenu1', {
+                    bindings : {
+                        'refresh' : function(t) {
+                            $that.find("a").tab('show');
+                            $iframe.attr('src', $iframe.attr('src'));
+                        },
+                        'close' : function(t) {
+                            $iframe.parent().remove();
+                            $that.prev().find("a").tab('show');
+                            $that.remove();
+                        },
+                        'closeall' : function(t) {
+                            // TODO 待优化 移除除第一个div外所有元素
+                            var iframes = $iframe.parent().parent().children().slice(1, $iframe.parent().parent().children().length).remove();
+                            $that.parent().children(":first").find("a").tab('show');
+                            $that.parent().children().slice(1, $that.parent().children().length).remove();
+                        }
+                    }
+                });
             }).hover(function() {
-                $(this).find('.glyphicon-remove').show();
+                $(this).find('.glyphicon-close').show();
             }, function() {
-                $(this).find('.glyphicon-remove').hide();
+                $(this).find('.glyphicon-close').hide();
             });
             // 绑定删除事件
-            DEFAULT.$li.find('.glyphicon-remove').on('click', function() {
+            DEFAULT.$li.find('.glyphicon-close').on('click', function() {
                 $('.tab-content div[id="' + $(this).parent().find("a").attr("href").substring(1) + '"]').remove();
                 $(this).parent().prev().find("a").tab('show');
                 $(this).parent().remove();
