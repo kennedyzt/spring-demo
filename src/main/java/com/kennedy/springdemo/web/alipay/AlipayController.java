@@ -2,6 +2,7 @@ package com.kennedy.springdemo.web.alipay;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -12,14 +13,13 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
-import com.mysql.fabric.Server;
 
 @Controller
 @RequestMapping("/alipay")
 public class AlipayController {
-    private static final String APP_PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALWJqajUqBwam3UB1FKt/LSNk+knyvbpyd6YmjvvObRKquGnPnsZplvk92KwVDQlM9/jyfKolG8AFErWsbZBgXU/9cLtF4kpAkxomEnT/ZAJ21z+gR0e+9CZbhROJDW5VstPrh7FYtGlttOFemNErxIrHDltcOVN0AUymPmU10+5AgMBAAECgYEApMmbqlevaiN07heFBrBM7hB+LW0jvlKmHltj1ffn55LH3yITg2bbLht/vKPXK6aBmkCJ9q20X7YwtWaB1rFLsv1uR2FD+WSRybKpfQlcTj6yQrPyomd92gdGsYfX9QYZFO9AOZhq6Axp5+X1KLJmOO2pYkQEwOmolxd/L2rR8mkCQQDgvwZJ5E1Pl9qedvoDbJ1yXeS/lS7s7SHI9NhSLJRUfdAemLSpSgF6eOJzSzGS4X32fxj1CP1Tzst71G7/DjTHAkEAzshqWB6yJKPZPwkaX5VC3DO/xf6jsn2qZPVNTopIAbe0PzyAY6HEJgkE4AnUngV47GdsM47l7Sy19ybVBcjXfwJBAL7cexK1d5Joe5inoZrW2r8NTf4FS1yZ5V8rz6m5gh5e2ieht4ss9iR0FJuk9+ys4rQ7K46sm7ZYoCYBOmIQRnECQBFzkp4LQSeceGo8f3BPrYveBjJUkkYvGuFYXoThYMBcW6b2mTNPZLl9C19JFRudBJ6W/+e+CKOioVzRdyr8z0sCQGArgl9myoJ2lJjXT6cWYWXujQtjKqB8JGQIvX6SCSbmLF4eJacBltKWnNMIcd18+8lxYziZw7lJSzi/UtdYQU4=";
-    private static final String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1iamo1KgcGpt1AdRSrfy0jZPpJ8r26cnemJo77zm0Sqrhpz57GaZb5PdisFQ0JTPf48nyqJRvABRK1rG2QYF1P/XC7ReJKQJMaJhJ0/2QCdtc/oEdHvvQmW4UTiQ1uVbLT64exWLRpbbThXpjRK8SKxw5bXDlTdAFMpj5lNdPuQIDAQAB";
-    private static final String APP_ID = "2016072400104698";
+    private static final String APP_PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMCZWTcrlXaX6gksAKgCRijNWUvYTyP/8QUWyJARBufJDx8fCUZe1qLzUm8CvpCYZiH9fVW6lJAfdqUj1C7Ou2p6MGZisWFfzM6FU4AmksBYwNUH7kcZaJ4iKUbRfrGn3KOQD6WnZbuPAIDGufRsflrNCbBctwR6QqtYJuE46rEnAgMBAAECgYEAntpccVqrTkOCLspySCCICYNFkX7513F0M4RVLC4/CdIVfM+2cKosUf5rEVCsKMrqAkL3q0vW2QB6dT6V9X1hqcSP31l6kRQA5UzW8fF0s+zKK/6l9WBKtXHRllWXefhZcwX3pR5skJCjPxO/0uHWtQKj7W7EebEMiFttstULRCECQQDee+KAGcgCXI4ibD4afuQ8vN3D4rNHoDQL+kVActvL8QpcPjZfpUhTZBw58I6lUH2oFHNNnhWUImTEhPTSJ8NpAkEA3ZzzARyEZCnqaQCN1LER1kqkbd+z9PFL/dha/udLYQ1ZpeLnyGlcGyHdPNHaY7mZsoDTwV7aeFW/fLDoLGKODwJAclU5xdj55vTHejskAxu4kNoCIRtMRH+4n3siwYcFGx4o09SIvshCjdBBjSjpNV1S5eB0jKuzrSerny4wXhtfGQJANdVacnqq7moAN2GbEn+xBY08RDSDUo0LGK7l6+Xjub+0d0eXZmexqCWhyJRxqKf9Xg9NYTvZdkHeMjwHKkEGoQJAb41Gb051JPmi4K0tC3T9KQYAhx0NwOlMjWVXAZkYgTDzI9sBYKkZYibo+ALmgLnXfYtBMM5USJNw1rq1JBrDhg==";
+    private static final String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDAmVk3K5V2l+oJLACoAkYozVlL2E8j//EFFsiQEQbnyQ8fHwlGXtai81JvAr6QmGYh/X1VupSQH3alI9QuzrtqejBmYrFhX8zOhVOAJpLAWMDVB+5HGWieIilG0X6xp9yjkA+lp2W7jwCAxrn0bH5azQmwXLcEekKrWCbhOOqxJwIDAQAB";
+    private static final String APP_ID = "2016101702205715";
 
     @RequestMapping("/init")
     public void init(HttpServletResponse httpResponse) throws IOException {
@@ -38,12 +38,31 @@ public class AlipayController {
 
     @RequestMapping("/returnurl")
     public String returnUrl() {
-        return "/alipay/returnurl";
+        return "/demo/alipay/returnurl";
     }
 
     @RequestMapping("/notifyurl")
     public String notifyUrl() {
-        return "/alipay/notifyurl";
+        return "/demo/alipay/notifyurl";
     }
 
+    @RequestMapping("/index")
+    public String index() {
+        return "/demo/alipay/index";
+    }
+
+    @RequestMapping("/alipayapi")
+    public String alipayapi(HttpServletRequest request) throws IOException {
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", "GBK", ALIPAY_PUBLIC_KEY);
+        AlipayTradePrecreateRequest request1 = new AlipayTradePrecreateRequest();
+        request1.setBizContent("{" + "    \"out_trade_no\":\"20150320010101001\"," + "    \"scene\":\"bar_code\"," + "    \"auth_code\":\"28763443825664394\"," + "    \"subject\":\"Iphone6 16G\","
+            + "    \"store_id\":\"NJ_001\"," + "    \"timeout_express\":\"2m\"," + "    \"total_amount\":88.88," + "  }"); // 设置业务参数
+        try {
+            AlipayTradePrecreateResponse response = alipayClient.execute(request1);
+            System.out.println(response);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return "/demo/alipay/alipayapi";
+    }
 }
