@@ -25,8 +25,8 @@ import java.net.URL;
  * @version: 1.0
  */
 public class WeChatUtil {
-    public final static String APPID = "wx322330a266a36785";
-    public final static String APPSECRET = "bbd2ea7859c2dfadf82f162a53d01516";
+    public final static String APPID = "wxe6ec34f9a9bd3cf9";
+    public final static String APPSECRET = "de69c952bcbcd7fc43191cc38d68d45b";
     // 动态代理地址
     public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/";
     // 创建菜单（POST）

@@ -1,7 +1,7 @@
 package com.kennedy.springdemo.beans.wechat.menu;
 
 /**
- * @Description: TODO
+ * @Description: 跳转页面的按钮
  * @date: 2016年9月26日 上午9:29:58
  * @author: zengt
  * @version: 1.0

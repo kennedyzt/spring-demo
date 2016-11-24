@@ -1,5 +1,7 @@
 package com.kennedy.springdemo.web.wechat;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -16,15 +18,17 @@ import com.kennedy.springdemo.utils.WeChatUtil;
 public class WeChatController {
 
     @RequestMapping(value = "/getuserinfo", method = RequestMethod.GET)
-    public String getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state) {
+    public String getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state, Map<String, Object> model) {
+        WeChatUser userInfo = null;
         try {
             WebToken webToken = WeChatUtil.getWebToken(code);
-            WeChatUser user = WeChatUtil.getUserInfo(webToken.getAccessToken(), webToken.getOpenid());
+            userInfo = WeChatUtil.getUserInfo(webToken.getAccessToken(), webToken.getOpenid());
             // 發送給本共總號成員
             WeChatUtil.previewMsg(WeChatUtil.getToken().getAccessToken(), webToken.getOpenid());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        model.put("userInfo", userInfo);
         return "/wechat/shop";
     }
 
