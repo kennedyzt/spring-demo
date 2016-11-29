@@ -1,5 +1,14 @@
 package com.kennedy.springdemo.utils;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import com.kennedy.springdemo.beans.wechat.Token;
 import com.kennedy.springdemo.beans.wechat.WeChatUser;
 import com.kennedy.springdemo.beans.wechat.WebToken;
@@ -7,16 +16,9 @@ import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
 import com.kennedy.springdemo.beans.wechat.message.Filter;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
+
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.ConnectException;
-import java.net.URL;
 
 /**
  * @Description: 微信工具类
@@ -198,7 +200,6 @@ public class WeChatUtil {
 
     /**
      * 뇜꽉데
-     *
      * @param accessToken 틴聯
      * @return true냥묘 false呵겨
      */
@@ -218,23 +219,13 @@ public class WeChatUtil {
         return result;
     }
 
-    public static String sendMsg(String accessToken) {
+    public static JSONObject sendMsg(String accessToken, SendAllMsg sendAllMsg) {
         // 拼接请求地址
         String requestUrl = SEND_MSG_URL.replace("ACCESS_TOKEN", accessToken);
-        // 获取用户信息
-        SendAllMsg sendAllMsg = new SendAllMsg();
-        Filter filter = new Filter();
-        filter.setIs_to_all(true);
-        sendAllMsg.setFilter(filter);
-        Text text = new Text();
-        text.setContent("群发消息测试");
-        sendAllMsg.setText(text);
-        sendAllMsg.setMsgtype("text");
-        JSONObject jsonObject = httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
-        return "";
+        return httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
     }
 
-    public static String previewMsg(String accessToken, String openId) {
+    public static JSONObject previewMsg(String accessToken, String openId) {
         // 拼接请求地址
         String requestUrl = PREVIEW_MSG_URL.replace("ACCESS_TOKEN", accessToken);
         // 获取用户信息
@@ -244,7 +235,6 @@ public class WeChatUtil {
         text.setContent("群发消息测试");
         sendAllMsg.setText(text);
         sendAllMsg.setMsgtype("text");
-        JSONObject jsonObject = httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
-        return "";
+        return httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
     }
 }

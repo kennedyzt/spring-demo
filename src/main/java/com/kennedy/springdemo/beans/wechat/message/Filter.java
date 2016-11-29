@@ -5,10 +5,12 @@ import java.io.Serializable;
 /**
  * Created by kennedy on 2016/10/9.
  */
-public class Filter implements Serializable{
-    private Boolean is_to_all;
-    private String group_id;
+public class Filter implements Serializable {
+    private static final long serialVersionUID = 1314918230501427683L;
 
+    private Boolean is_to_all;
+
+    private String group_id;
 
     public Boolean getIs_to_all() {
         return is_to_all;
