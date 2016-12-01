@@ -50,8 +50,9 @@ public class MenuManager {
         requestUrl = requestUrl.replace("APPID", WeChatUtil.APPID).replace("REDIRECT_URI", WeChatUtil.PROXYADDRESS + "/springdemo/wechat/getuserinfo").replace("SCOPE", "snsapi_userinfo")
             .replace("STATE", "123456");
         ViewButton authBtn = new ViewButton("授权demo", MenuType.VIEW.getType(), requestUrl);
+        ViewButton addKfBtn = new ViewButton("添加客服人员", MenuType.VIEW.getType(), WeChatUtil.PROXYADDRESS + "/springdemo/wechat/addkf");
         ComplexButton complexButton = new ComplexButton();
-        Button[] buttonArray = new Button[] { authBtn };
+        Button[] buttonArray = new Button[] { authBtn, addKfBtn };
         complexButton.setName("功能演示");
         complexButton.setSub_button(buttonArray);
         weChatMenu.setButton(new Button[] { complexButton });

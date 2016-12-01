@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.kennedy.springdemo.beans.wechat.message.Filter;
 import com.kennedy.springdemo.beans.wechat.message.InputMessage;
@@ -51,66 +53,24 @@ public class TokenController {
 
     @RequestMapping(value = "/index", method = RequestMethod.POST, produces = "text/xml")
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document d = db.parse(request.getInputStream());
-        InputMessage inputMessage = new InputMessage();
-        String msgType = d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue();
-        switch (msgType) {
+        Document d = buildDocument(request);
+        InputMessage inputMessage = buildInputMessage(d);
+        switch (inputMessage.getMsgType()) {
             case "text":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
                 inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
                 inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "image":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "voice":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "video":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "shortvideo":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "location":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
                 break;
             case "event":
-                inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-                inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-                inputMessage.setEvent(d.getElementsByTagName("Event").item(0).getFirstChild().getNodeValue());
                 // 订阅
                 if (inputMessage.getEvent().equals("subscribe")) {
                     SendAllMsg sendAllMsg = new SendAllMsg();
@@ -125,6 +85,23 @@ public class TokenController {
                 inputMessage = null;
                 break;
         }
+    }
+
+    private InputMessage buildInputMessage(Document d) {
+        InputMessage inputMessage = new InputMessage();
+        inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
+        inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
+        inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
+        inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
+        inputMessage.setEvent(d.getElementsByTagName("Event").item(0).getFirstChild().getNodeValue());
+        return inputMessage;
+    }
+
+    private Document buildDocument(HttpServletRequest request) throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document d = db.parse(request.getInputStream());
+        return d;
     }
 
 }

@@ -9,11 +9,12 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.kennedy.springdemo.beans.wechat.ErrorCodeModel;
 import com.kennedy.springdemo.beans.wechat.Token;
 import com.kennedy.springdemo.beans.wechat.WeChatUser;
 import com.kennedy.springdemo.beans.wechat.WebToken;
+import com.kennedy.springdemo.beans.wechat.kf.KfInfo;
 import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
-import com.kennedy.springdemo.beans.wechat.message.Filter;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
 
@@ -41,6 +42,8 @@ public class WeChatUtil {
     public final static String SEND_MSG_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN";
     // 消息预览
     public final static String PREVIEW_MSG_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN";
+    // 添加客服
+    public final static String KF_ADD_URL = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN";
 
     public static Token getToken() {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret=" + APPSECRET;
@@ -199,7 +202,7 @@ public class WeChatUtil {
     }
 
     /**
-     * 뇜꽉데
+     * 刪除菜单
      * @param accessToken 틴聯
      * @return true냥묘 false呵겨
      */
@@ -219,6 +222,7 @@ public class WeChatUtil {
         return result;
     }
 
+    // 群发消息
     public static JSONObject sendMsg(String accessToken, SendAllMsg sendAllMsg) {
         // 拼接请求地址
         String requestUrl = SEND_MSG_URL.replace("ACCESS_TOKEN", accessToken);
@@ -236,5 +240,22 @@ public class WeChatUtil {
         sendAllMsg.setText(text);
         sendAllMsg.setMsgtype("text");
         return httpRequest(requestUrl, "POST", JSONObject.fromObject(sendAllMsg).toString());
+    }
+
+    // 添加微信客服
+    public static ErrorCodeModel addKF() {
+        ErrorCodeModel errorCodeModel = new ErrorCodeModel();
+        // 拼接请求地址
+        String requestUrl = KF_ADD_URL.replace("ACCESS_TOKEN", WeChatUtil.getToken().getAccessToken());
+        KfInfo kfInfo = new KfInfo("客服组@oc4sNw4W1UxqW0zC3-PFLgBhvYeI", "王涛", "251314taowang");
+        JSONObject jsonObject = httpRequest(requestUrl, "POST", JSONObject.fromObject(kfInfo).toString());
+        if (null != jsonObject) {
+            try {
+                errorCodeModel.setErrcode(jsonObject.getString("errcode"));
+                errorCodeModel.setErrmsg(jsonObject.getString("errmsg"));
+            } catch (Exception e) {
+            }
+        }
+        return errorCodeModel;
     }
 }
