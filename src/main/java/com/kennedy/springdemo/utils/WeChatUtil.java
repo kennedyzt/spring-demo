@@ -17,6 +17,7 @@ import com.kennedy.springdemo.beans.wechat.kf.KfInfo;
 import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
+import com.kennedy.springdemo.beans.wechat.order.UnifiedOrder;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -257,5 +258,11 @@ public class WeChatUtil {
             }
         }
         return errorCodeModel;
+    }
+
+    public static void buildUnifiedOrder() {
+        // UnifiedOrder unifiedOrder = new UnifiedOrder(WeChatUtil.APPID,
+        // "1230000109", "123456", "654321","");
+        // JSONObject jsonObject = httpRequest("https://api.mch.weixin.qq.com/pay/unifiedorder", "POST", JSONObject.fromObject(unifiedOrder).toString());
     }
 }
