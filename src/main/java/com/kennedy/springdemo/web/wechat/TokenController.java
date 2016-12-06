@@ -1,6 +1,7 @@
 package com.kennedy.springdemo.web.wechat;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.kennedy.springdemo.beans.wechat.message.Filter;
 import com.kennedy.springdemo.beans.wechat.message.InputMessage;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
+import com.kennedy.springdemo.beans.wechat.message.TextMessage;
 import com.kennedy.springdemo.service.wechat.TokenService;
 import com.kennedy.springdemo.utils.WeChatUtil;
 
@@ -71,15 +73,33 @@ public class TokenController {
             case "location":
                 break;
             case "event":
-                // 订阅
-                if (inputMessage.getEvent().equals("subscribe")) {
-                    SendAllMsg sendAllMsg = new SendAllMsg();
-                    Filter filter = new Filter();
-                    filter.setIs_to_all(true);
-                    sendAllMsg.setFilter(filter);
-                    sendAllMsg.setText(new Text("有新用户加入啦。。。"));
-                    sendAllMsg.setMsgtype("text");
-                    WeChatUtil.sendMsg(WeChatUtil.getToken().getAccessToken(), sendAllMsg);
+                switch (inputMessage.getEvent()) {
+                    case "subscribe":
+                        SendAllMsg sendAllMsg = new SendAllMsg();
+                        Filter filter = new Filter();
+                        filter.setIs_to_all(true);
+                        sendAllMsg.setFilter(filter);
+                        sendAllMsg.setText(new Text("有新用户加入啦。。。"));
+                        sendAllMsg.setMsgtype("text");
+                        WeChatUtil.sendMsg(WeChatUtil.getToken().getAccessToken(), sendAllMsg);
+                        break;
+                    case "CLICK":
+                        inputMessage.setEventKey(d.getElementsByTagName("EventKey").item(0).getFirstChild().getNodeValue());
+                        switch (inputMessage.getEventKey()) {
+                            case "customerServices":
+                                PrintWriter printWriter = response.getWriter();
+                                printWriter.print(WeChatUtil.textMessageToXml(new TextMessage(inputMessage.getFromUserName(), WeChatUtil.DEVELOPER_ID,
+                                    "您好,这里是中国成都人力资源服务产业园,很高兴为您服务(人工服务服务时间早9:00-17:00)。由于业务繁忙，如果人工服务不在，您可以先行留言，我们看到后，会第一时间为您处理。\n您也可以点击以下信息。查看相关内容，如有不便，烦请见谅！\n<a href='" + WeChatUtil.PROXYADDRESS
+                                        + "/wechat/coding" + "'>关于入驻标准</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/coding" + "'>第三方服务</a>\n<a href='" + WeChatUtil.PROXYADDRESS
+                                        + "/m/enter-apply" + "'>入园申请</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/coding" + "'>联系方式</a>",
+                                    System.currentTimeMillis())));
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
                 }
             default:
                 inputMessage = null;

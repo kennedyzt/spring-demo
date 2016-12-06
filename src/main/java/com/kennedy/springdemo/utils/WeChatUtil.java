@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.ConnectException;
 import java.net.URL;
 
@@ -17,7 +18,12 @@ import com.kennedy.springdemo.beans.wechat.kf.KfInfo;
 import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
-import com.kennedy.springdemo.beans.wechat.order.UnifiedOrder;
+import com.kennedy.springdemo.beans.wechat.message.TextMessage;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -29,10 +35,13 @@ import net.sf.json.JSONObject;
  * @version: 1.0
  */
 public class WeChatUtil {
-    public final static String APPID = "wxe6ec34f9a9bd3cf9";
-    public final static String APPSECRET = "de69c952bcbcd7fc43191cc38d68d45b";
+    // -----------------------------------需配置---------------------------------------------------------
+    public final static String APPID = "wx7030efe849a2abd9";
+    public final static String APPSECRET = "6670fc66e4cbe9cd4da983a524846203";
+    public final static String DEVELOPER_ID = "gh_b9efa381948b"; // 开发者微信号
     // 动态代理地址
-    public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/";
+    public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/portal/";
+    // -----------------------------------配置結束--------------------------------------------------------
     // 创建菜单（POST）
     public final static String MENU_CREATE_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
     // 获取菜单（GET）
@@ -203,9 +212,11 @@ public class WeChatUtil {
     }
 
     /**
-     * 刪除菜单
-     * @param accessToken 틴聯
-     * @return true냥묘 false呵겨
+     * @Description: 刪除菜单
+     * @param accessToken
+     * @return
+     * @author: zengt
+     * @date: 2016年12月6日 下午2:23:12
      */
     public static boolean deleteMenu(String accessToken) {
         boolean result = false;
@@ -263,6 +274,44 @@ public class WeChatUtil {
     public static void buildUnifiedOrder() {
         // UnifiedOrder unifiedOrder = new UnifiedOrder(WeChatUtil.APPID,
         // "1230000109", "123456", "654321","");
-        // JSONObject jsonObject = httpRequest("https://api.mch.weixin.qq.com/pay/unifiedorder", "POST", JSONObject.fromObject(unifiedOrder).toString());
+        // JSONObject jsonObject =
+        // httpRequest("https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",
+        // JSONObject.fromObject(unifiedOrder).toString());
     }
+
+    public static void sendMsgToUser(String fromUserName, SendAllMsg sendAlMsg) {
+
+    }
+
+    public static String textMessageToXml(TextMessage textMessage) {
+        xstream.alias("xml", textMessage.getClass());
+        return xstream.toXML(textMessage);
+    }
+
+    /**
+     * 对象到xml的处理
+     */
+    private static XStream xstream = new XStream(new XppDriver() {
+        public HierarchicalStreamWriter createWriter(Writer out) {
+            return new PrettyPrintWriter(out) {
+                // 对所有xml节点的转换都增加CDATA标记
+                boolean cdata = true;
+
+                @SuppressWarnings("rawtypes")
+                public void startNode(String name, Class clazz) {
+                    super.startNode(name, clazz);
+                }
+
+                protected void writeText(QuickWriter writer, String text) {
+                    if (cdata) {
+                        writer.write("<![CDATA[");
+                        writer.write(text);
+                        writer.write("]]>");
+                    } else {
+                        writer.write(text);
+                    }
+                }
+            };
+        }
+    });
 }

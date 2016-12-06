@@ -8,21 +8,17 @@ import java.io.Serializable;
  * @author: zengt
  * @version: 1.0
  */
-public class OutputMessage implements Serializable {
+public class Message implements Serializable {
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    private String ToUserName;
+    public String ToUserName;
 
-    private String FromUserName;
+    public String FromUserName;
 
-    private Long CreateTime;
-
-    private String MsgType = "text";
-
-    private String MediaId;
+    public Long CreateTime;
 
     public String getToUserName() {
         return ToUserName;
@@ -47,21 +43,4 @@ public class OutputMessage implements Serializable {
     public void setCreateTime(Long createTime) {
         CreateTime = createTime;
     }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
-
-    public String getMediaId() {
-        return MediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        MediaId = mediaId;
-    }
-
 }

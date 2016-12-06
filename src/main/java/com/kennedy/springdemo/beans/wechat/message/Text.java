@@ -3,7 +3,10 @@ package com.kennedy.springdemo.beans.wechat.message;
 import java.io.Serializable;
 
 /**
- * Created by kennedy on 2016/10/9.
+ * @Description: 文本消息
+ * @date: 2016年12月6日 下午2:25:33
+ * @author: zengt
+ * @version: 1.0
  */
 public class Text implements Serializable {
     private static final long serialVersionUID = -2456803666625116815L;

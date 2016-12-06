@@ -57,4 +57,9 @@ public class DemoController {
     public String toPreview() {
         return "/demo/preview";
     }
+
+    @RequestMapping("/ueditor")
+    public String toUeditor() {
+        return "/demo/ueditor";
+    }
 }
