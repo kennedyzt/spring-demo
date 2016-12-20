@@ -7,8 +7,16 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.net.ConnectException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import com.kennedy.springdemo.beans.wechat.ErrorCodeModel;
 import com.kennedy.springdemo.beans.wechat.Token;
@@ -38,7 +46,7 @@ public class WeChatUtil {
     // -----------------------------------需配置---------------------------------------------------------
     public final static String APPID = "wx7030efe849a2abd9";
     public final static String APPSECRET = "6670fc66e4cbe9cd4da983a524846203";
-    public final static String DEVELOPER_ID = "gh_b9efa381948b"; // 开发者微信号
+    public final static String DEVELOPER_ID = "gh_90761ed424a7"; // 开发者微信号
     // 动态代理地址
     public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/portal/";
     // -----------------------------------配置結束--------------------------------------------------------
@@ -314,4 +322,33 @@ public class WeChatUtil {
             };
         }
     });
+
+    public static Map<String, Object> parseXml(HttpServletRequest request) throws Exception {
+        // 将解析结果存储在HashMap中
+        Map<String, Object> map = new HashMap<String, Object>();
+        // 从request中取得输入流
+        InputStream inputStream = request.getInputStream();
+        // 读取输入流
+        SAXReader reader = new SAXReader();
+        Document document = reader.read(inputStream);
+        // 得到xml根元素
+        Element root = document.getRootElement();
+        // 得到根元素的所有子节点
+        List<Element> elementList = root.elements();
+
+        // 遍历所有子节点
+        for (Element e : elementList) {
+            if (e.elements().size() > 0) {
+                map.put(e.getName(), e.elements());
+            } else {
+                map.put(e.getName(), e.getText());
+            }
+        }
+
+        // 释放资源
+        inputStream.close();
+        inputStream = null;
+
+        return map;
+    }
 }

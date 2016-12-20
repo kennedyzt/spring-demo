@@ -3,6 +3,7 @@ package com.kennedy.springdemo.web.wechat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,12 +56,15 @@ public class TokenController {
 
     @RequestMapping(value = "/index", method = RequestMethod.POST, produces = "text/xml")
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Document d = buildDocument(request);
-        InputMessage inputMessage = buildInputMessage(d);
-        switch (inputMessage.getMsgType()) {
+        Map<String, Object> paraMap = WeChatUtil.parseXml(request);
+        PrintWriter printWriter = response.getWriter();
+        switch ((String) paraMap.get("MsgType")) {
             case "text":
-                inputMessage.setContent(d.getElementsByTagName("Content").item(0).getFirstChild().getNodeValue());
-                inputMessage.setMsgId(d.getElementsByTagName("MsgId").item(0).getFirstChild().getNodeValue());
+                printWriter.print(WeChatUtil.textMessageToXml(new TextMessage((String) paraMap.get("FromUserName"), WeChatUtil.DEVELOPER_ID,
+                    "您好,这里是中国成都人力资源服务产业园,很高兴为您服务(人工服务服务时间早9:00-17:00)。由于业务繁忙，如果人工服务不在，您可以先行留言，我们看到后，会第一时间为您处理。\n您也可以点击以下信息。查看相关内容，如有不便，烦请见谅！\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/coding"
+                        + "'>关于入驻标准</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/parkintro/globalplan?dataIndex=2" + "'>第三方服务</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/m/enter-apply"
+                        + "'>入园申请</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/contactus" + "'>联系方式</a>",
+                    System.currentTimeMillis())));
                 break;
             case "image":
                 break;
@@ -73,7 +77,7 @@ public class TokenController {
             case "location":
                 break;
             case "event":
-                switch (inputMessage.getEvent()) {
+                switch ((String) paraMap.get("Event")) {
                     case "subscribe":
                         SendAllMsg sendAllMsg = new SendAllMsg();
                         Filter filter = new Filter();
@@ -84,14 +88,12 @@ public class TokenController {
                         WeChatUtil.sendMsg(WeChatUtil.getToken().getAccessToken(), sendAllMsg);
                         break;
                     case "CLICK":
-                        inputMessage.setEventKey(d.getElementsByTagName("EventKey").item(0).getFirstChild().getNodeValue());
-                        switch (inputMessage.getEventKey()) {
+                        switch ((String) paraMap.get("EventKey")) {
                             case "customerServices":
-                                PrintWriter printWriter = response.getWriter();
-                                printWriter.print(WeChatUtil.textMessageToXml(new TextMessage(inputMessage.getFromUserName(), WeChatUtil.DEVELOPER_ID,
+                                printWriter.print(WeChatUtil.textMessageToXml(new TextMessage((String) paraMap.get("FromUserName"), WeChatUtil.DEVELOPER_ID,
                                     "您好,这里是中国成都人力资源服务产业园,很高兴为您服务(人工服务服务时间早9:00-17:00)。由于业务繁忙，如果人工服务不在，您可以先行留言，我们看到后，会第一时间为您处理。\n您也可以点击以下信息。查看相关内容，如有不便，烦请见谅！\n<a href='" + WeChatUtil.PROXYADDRESS
-                                        + "/wechat/coding" + "'>关于入驻标准</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/coding" + "'>第三方服务</a>\n<a href='" + WeChatUtil.PROXYADDRESS
-                                        + "/m/enter-apply" + "'>入园申请</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/coding" + "'>联系方式</a>",
+                                        + "/wechat/coding" + "'>关于入驻标准</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/parkintro/globalplan?dataIndex=2" + "'>第三方服务</a>\n<a href='"
+                                        + WeChatUtil.PROXYADDRESS + "/m/enter-apply" + "'>入园申请</a>\n<a href='" + WeChatUtil.PROXYADDRESS + "/wechat/contactus" + "'>联系方式</a>",
                                     System.currentTimeMillis())));
                                 break;
                             default:
@@ -102,26 +104,18 @@ public class TokenController {
                         break;
                 }
             default:
-                inputMessage = null;
                 break;
         }
     }
 
-    private InputMessage buildInputMessage(Document d) {
-        InputMessage inputMessage = new InputMessage();
-        inputMessage.setToUserName(d.getElementsByTagName("ToUserName").item(0).getFirstChild().getNodeValue());
-        inputMessage.setFromUserName(d.getElementsByTagName("FromUserName").item(0).getFirstChild().getNodeValue());
-        inputMessage.setCreateTime(d.getElementsByTagName("CreateTime").item(0).getFirstChild().getNodeValue());
-        inputMessage.setMsgType(d.getElementsByTagName("MsgType").item(0).getFirstChild().getNodeValue());
-        inputMessage.setEvent(d.getElementsByTagName("Event").item(0).getFirstChild().getNodeValue());
-        return inputMessage;
+    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    @ResponseBody
+    public String doPayGet(HttpServletRequest request, HttpServletResponse response) {
+        return tokenService.validate(request);
     }
 
-    private Document buildDocument(HttpServletRequest request) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document d = db.parse(request.getInputStream());
-        return d;
+    @RequestMapping(value = "/pay", method = RequestMethod.POST, produces = "text/xml")
+    public void doPayPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println(1);
     }
-
 }
