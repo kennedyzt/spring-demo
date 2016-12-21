@@ -63,6 +63,9 @@ public class WeChatUtil {
     // 添加客服
     public final static String KF_ADD_URL = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN";
 
+    /** ----------------------支付模块------------------------------------ */
+    public final static String UNIFIE_DORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
     public static Token getToken() {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret=" + APPSECRET;
         Token token = null;
@@ -351,4 +354,6 @@ public class WeChatUtil {
 
         return map;
     }
+    /** --------------------------支付模块---------------------------- */
+
 }
