@@ -19,7 +19,9 @@
 </body>
 <script type="text/javascript">
     function pay() {
-        $('#code').qrcode("weixin://wxpay/bizpayurl?sign=123456&appid=wxf80f6cff0b60cc82&mch_id=1423332802&product_id=10001&time_stamp=1415949957&nonce_str=5K8264ILTKCH16CQ2502SI8ZNMTM67VS");
+        $('#code')
+                .qrcode(
+                        "weixin://wxpay/bizpayurl?appid=wxf80f6cff0b60cc82&mch_id=1423332802&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
     }
 </script>
 </html>

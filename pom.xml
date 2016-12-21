@@ -198,30 +198,6 @@
 			<artifactId>xstream</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		<!-- 文件在线预览 -->
-		<dependency>
-			<groupId>fakepath</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.7.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.zhuozhengsoft</groupId>
-			<artifactId>pageoffice</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<!-- 支付宝依赖 -->
-		<dependency>
-			<groupId>org.alipay</groupId>
-			<artifactId>alipay-sdk-java</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>fakepath</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-			<type>pom</type>
-		</dependency>
-		<!-- 支付宝 -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
