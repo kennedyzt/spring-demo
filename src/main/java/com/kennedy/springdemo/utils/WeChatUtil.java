@@ -1,15 +1,21 @@
 package com.kennedy.springdemo.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.ConnectException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +33,7 @@ import com.kennedy.springdemo.beans.wechat.menu.WeChatMenu;
 import com.kennedy.springdemo.beans.wechat.message.SendAllMsg;
 import com.kennedy.springdemo.beans.wechat.message.Text;
 import com.kennedy.springdemo.beans.wechat.message.TextMessage;
+import com.kennedy.springdemo.beans.wechat.order.UnifiedOrder;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -44,9 +51,10 @@ import net.sf.json.JSONObject;
  */
 public class WeChatUtil {
     // -----------------------------------需配置---------------------------------------------------------
-    public final static String APPID = "wx7030efe849a2abd9";
+    public final static String APPID = "wxf80f6cff0b60cc82";
     public final static String APPSECRET = "6670fc66e4cbe9cd4da983a524846203";
     public final static String DEVELOPER_ID = "gh_90761ed424a7"; // 开发者微信号
+    public final static String MCH_ID = "1423332802"; // 商户号
     // 动态代理地址
     public final static String PROXYADDRESS = "http://kennedyzt.vicp.io/portal/";
     // -----------------------------------配置結束--------------------------------------------------------
@@ -282,14 +290,6 @@ public class WeChatUtil {
         return errorCodeModel;
     }
 
-    public static void buildUnifiedOrder() {
-        // UnifiedOrder unifiedOrder = new UnifiedOrder(WeChatUtil.APPID,
-        // "1230000109", "123456", "654321","");
-        // JSONObject jsonObject =
-        // httpRequest("https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",
-        // JSONObject.fromObject(unifiedOrder).toString());
-    }
-
     public static void sendMsgToUser(String fromUserName, SendAllMsg sendAlMsg) {
 
     }
@@ -315,9 +315,7 @@ public class WeChatUtil {
 
                 protected void writeText(QuickWriter writer, String text) {
                     if (cdata) {
-                        writer.write("<![CDATA[");
                         writer.write(text);
-                        writer.write("]]>");
                     } else {
                         writer.write(text);
                     }
@@ -354,6 +352,15 @@ public class WeChatUtil {
 
         return map;
     }
-    /** --------------------------支付模块---------------------------- */
 
+    public static String getUUID() {
+        String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
+        return uuid;
+    }
+
+    /** --------------------------支付模块---------------------------- */
+    public static String buildUnifiedOrder(SortedMap<Object, Object> unifiedParams) {
+        String requestXML = PayCommonUtil.getRequestXml(unifiedParams);
+        return HttpUtil.postData(UNIFIE_DORDER_URL, requestXML);
+    }
 }

@@ -37,7 +37,7 @@ public class UnifiedOrder implements Serializable {
         super();
     }
 
-    public UnifiedOrder(String appid, String mch_id, String nonce_str, String sign, String body, String out_trade_no, Integer total_fee, String spbill_create_ip, String goods_tag, String notify_url,
+    public UnifiedOrder(String appid, String mch_id, String nonce_str, String sign, String body, String out_trade_no, Integer total_fee, String spbill_create_ip, String notify_url,
         String trade_type) {
         super();
         this.appid = appid;
@@ -48,7 +48,6 @@ public class UnifiedOrder implements Serializable {
         this.out_trade_no = out_trade_no;
         this.total_fee = total_fee;
         this.spbill_create_ip = spbill_create_ip;
-        this.goods_tag = goods_tag;
         this.notify_url = notify_url;
         this.trade_type = trade_type;
     }
