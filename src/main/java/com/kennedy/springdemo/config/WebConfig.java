@@ -1,6 +1,8 @@
 package com.kennedy.springdemo.config;
 
-import com.kennedy.springdemo.listener.ApplicationListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,13 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+
+import com.kennedy.springdemo.listener.ApplicationListener;
 
 @Configuration
 @ComponentScan("com.kennedy.springdemo.web") // 启用注解扫描
@@ -19,13 +27,39 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableScheduling
 public class WebConfig extends WebMvcConfigurerAdapter {
     // JSP视图解析器
-    @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
+        resolver.setOrder(2);
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
+    }
+
+    @Bean
+    public ContentNegotiatingViewResolver contentNegotiatingViewResolver() {
+        ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
+        List<ViewResolver> viewResolvers = new ArrayList<>(); //
+        viewResolvers.add(viewResolver());
+        viewResolvers.add(freeMarkerViewResolver());
+        contentNegotiatingViewResolver.setViewResolvers(viewResolvers);
+        return contentNegotiatingViewResolver;
+    }
+
+    @Bean
+    public FreeMarkerConfig freeMarkerConfig() {
+        FreeMarkerConfigurer config = new FreeMarkerConfigurer();
+        config.setTemplateLoaderPath("/WEB-INF/views/");
+        config.setDefaultEncoding("UTF-8");
+        return config;
+    }
+
+    public ViewResolver freeMarkerViewResolver() {
+        FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
+        freeMarkerViewResolver.setPrefix("");
+        freeMarkerViewResolver.setSuffix(".ftl");
+        freeMarkerViewResolver.setOrder(1);
+        return freeMarkerViewResolver;
     }
 
     @Override

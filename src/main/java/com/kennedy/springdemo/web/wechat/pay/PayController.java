@@ -37,7 +37,7 @@ public class PayController {
             SortedMap<Object, Object> unifiedParams = new TreeMap<Object, Object>();
             unifiedParams.put("appid", WeChatUtil.APPID); // 必须
             unifiedParams.put("mch_id", WeChatUtil.MCH_ID); // 必须
-            unifiedParams.put("out_trade_no", "1001"); // 必须
+            unifiedParams.put("out_trade_no", "1002"); // 必须
             unifiedParams.put("product_id", "10001");
             unifiedParams.put("body", goods.getRemark()); // 必须
             unifiedParams.put("total_fee", "1"); // 必须
