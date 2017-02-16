@@ -10,6 +10,7 @@
 		<spring.version>4.2.3.RELEASE</spring.version>
 		<shiro.version>1.2.4</shiro.version>
 		<spring.security>4.1.1.RELEASE</spring.security>
+		<swagger.version>2.2.2</swagger.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -258,6 +259,52 @@
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.25-incubating</version>
+		</dependency>
+		<!-- swagger2 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-staticdocs</artifactId>
+			<version>2.2.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

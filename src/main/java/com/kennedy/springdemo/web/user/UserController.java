@@ -1,56 +1,56 @@
 package com.kennedy.springdemo.web.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kennedy.springdemo.beans.common.PageRequest;
 import com.kennedy.springdemo.beans.user.User;
-import com.kennedy.springdemo.common.PageModel;
-import com.kennedy.springdemo.common.ResultMsg;
-import com.kennedy.springdemo.service.user.UserService;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String toList() {
-        return "/user/list";
+    @ApiOperation(value = "获取用户列表", notes = "")
+    @RequestMapping(value = { "" }, method = RequestMethod.GET)
+    public List<User> getUserList() {
+        return null;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String toAdd() {
-        return "/user/add";
+    @ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
+    @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String postUser(@RequestBody User user) {
+        return "success";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResultMsg add(User user) {
-        ResultMsg resultMsg = new ResultMsg();
-        try {
-            userService.add(user);
-            resultMsg.setIsSuccess(Boolean.TRUE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultMsg.setIsSuccess(Boolean.FALSE);
-        }
-        return resultMsg;
+    @ApiOperation(value = "获取用户详细信息", notes = "根据url的id来获取用户详细信息")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public User getUser(@PathVariable Long id) {
+        return null;
     }
 
-    @RequestMapping(value = "/getListByPage")
-    @ResponseBody
-    public PageModel<User> getListByPage(PageRequest pageRequest) {
-        PageModel<User> pageModel = null;
-        try {
-            pageModel = userService.getListByPage(pageRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return pageModel;
+    @ApiOperation(value = "更新用户详细信息", notes = "根据url的id来指定更新对象，并根据传过来的user信息来更新用户详细信息")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User") })
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public String putUser(@PathVariable Long id, @RequestBody User user) {
+        return "success";
+    }
+
+    @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除对象")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public String deleteUser(@PathVariable Long id) {
+        return "success";
     }
 
 }
