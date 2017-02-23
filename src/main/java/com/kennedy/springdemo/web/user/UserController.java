@@ -1,6 +1,5 @@
 package com.kennedy.springdemo.web.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
