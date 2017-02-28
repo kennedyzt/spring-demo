@@ -32,6 +32,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
         resolver.setOrder(2);
+        resolver.setContentType("text/html; charset=utf-8");
+        resolver.setContentType("text/plain; charset=utf-8");
+        resolver.setContentType("application/json; charset=utf-8");
+        resolver.setContentType("application/xml; charset=utf-8");
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
@@ -59,6 +63,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         freeMarkerViewResolver.setPrefix("");
         freeMarkerViewResolver.setSuffix(".ftl");
         freeMarkerViewResolver.setOrder(1);
+        freeMarkerViewResolver.setContentType("text/html; charset=utf-8");
+        freeMarkerViewResolver.setContentType("text/plain; charset=utf-8");
+        freeMarkerViewResolver.setContentType("application/json; charset=utf-8");
+        freeMarkerViewResolver.setContentType("application/xml; charset=utf-8");
         return freeMarkerViewResolver;
     }
 

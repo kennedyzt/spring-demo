@@ -7,6 +7,8 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,9 +31,10 @@ public class LBSController {
     @RequestMapping("/loc")
     @ResponseBody
     public String getLoc(@RequestParam("mcc") String mcc, @RequestParam("mnc") String mnc, @RequestParam("lac") String lac, @RequestParam("ci") String ci, @RequestParam("coord") String coord,
-                         @RequestParam("output") String output) {
-        String requestUrl = GETLOCURL.replace("MCC", mcc).replace("mnc", mnc).replace("lac", lac).replace("ci", ci).replace("coord", coord).replace("output", output);
-        String jsonObject = sendGet(requestUrl, null);
+                         @RequestParam("output") String output, HttpServletResponse response) {
+        String requestUrl = GETLOCURL.replace("MCC", mcc).replace("MNC", mnc).replace("LAC", lac).replace("CI", ci).replace("COORD", coord).replace("OUTPUT", output);
+        String jsonObject = sendGet(requestUrl);
+        response.setContentType("text/plain;charset=UTF-8");
         return jsonObject;
     }
 
@@ -41,12 +44,11 @@ public class LBSController {
      * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return URL 所代表远程资源的响应结果
      */
-    public String sendGet(String url, String param) {
+    public String sendGet(String url) {
         String result = "";
         BufferedReader in = null;
         try {
-            String urlNameString = url + "?" + param == null ? "" : param;
-            URL realUrl = new URL(urlNameString);
+            URL realUrl = new URL(url);
             // 打开和URL之间的连接
             URLConnection connection = realUrl.openConnection();
             // 设置通用的请求属性
