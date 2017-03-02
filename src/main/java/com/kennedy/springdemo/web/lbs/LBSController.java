@@ -28,7 +28,7 @@ public class LBSController {
     /**
      * 混合定位接口 基于临近基站和WIFI热点的高精度混合基站定位
      */
-    @RequestMapping("/loc")
+    @RequestMapping(value = "/loc", produces = { "text/html;charset=UTF-8;", "application/json;" })
     @ResponseBody
     public String getLoc(@RequestParam("mcc") String mcc, @RequestParam("mnc") String mnc, @RequestParam("lac") String lac, @RequestParam("ci") String ci, @RequestParam("coord") String coord,
                          @RequestParam("output") String output, HttpServletResponse response) {
